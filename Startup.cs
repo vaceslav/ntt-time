@@ -25,6 +25,8 @@ namespace ntt_time
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // services.AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +37,23 @@ namespace ntt_time
                 app.UseDeveloperExceptionPage();
             }
 
+        //     app.UseSwaggerUi3WithApiExplorer(s =>
+        // {
+        //     s.SwaggerRoute = "/swagger/v1/swagger.json";
+        //     s.SwaggerUiRoute = "/swagger";
+
+        //     s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+        //     {
+        //         Type = SwaggerSecuritySchemeType.ApiKey,
+        //         Name = "TEST_HEADER",
+        //         In = SwaggerSecurityApiKeyLocation.Header,
+        //         Description = "TEST_HEADER"
+        //     }));
+        // });
+
             app.UseMvc();
+
+            app.UseStaticFiles();
         }
     }
 }

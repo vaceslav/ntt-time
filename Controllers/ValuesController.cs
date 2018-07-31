@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace ntt_time.Controllers
 {
@@ -14,6 +15,9 @@ namespace ntt_time.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+
+            Thread.Sleep(3000);
+
             return new string[] { "value1", "value2" };
         }
 
