@@ -12,6 +12,10 @@
             "element",
             "time",
             "kebab-case"
-        ]
+        ],
+  
+        "no-unused-expression": [true, "allow-fast-null-checks"],
+        "comment-format": true
     }
-}
+  }
+  
