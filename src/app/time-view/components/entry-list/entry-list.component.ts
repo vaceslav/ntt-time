@@ -13,5 +13,9 @@ export class EntryListComponent implements OnInit {
 
   ngOnInit() {
     this.entries = this.entriesService.items;
+
+    this.entriesService.getItems().subscribe(items => {
+      this.entries = items;
+    });
   }
 }
