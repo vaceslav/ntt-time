@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EntriesService } from '../../../shared/services/entries.service';
 
 @Component({
   selector: 'time-entry-list',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./entry-list.component.scss']
 })
 export class EntryListComponent implements OnInit {
+  public entries: string[];
 
-  constructor() { }
+  constructor(private entriesService: EntriesService) {}
 
   ngOnInit() {
+    this.entries = this.entriesService.items;
   }
-
 }
