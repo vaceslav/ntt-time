@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NttTimeApi.Db;
+using NSwag;
+using NSwag.AspNetCore;
+using NSwag.SwaggerGeneration.Processors.Security;
+
 
 namespace ntt_time
 {
@@ -28,6 +32,8 @@ namespace ntt_time
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSwagger();
+
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ntt_time;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<NttDbContext>(options => options.UseSqlServer(connection));
         }
@@ -39,6 +45,20 @@ namespace ntt_time
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwaggerUi3WithApiExplorer(s =>
+            {
+                s.SwaggerRoute = "/swagger/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger";
+
+                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                {
+                    Type = SwaggerSecuritySchemeType.ApiKey,
+                    Name = "TEST_HEADER",
+                    In = SwaggerSecurityApiKeyLocation.Header,
+                    Description = "TEST_HEADER"
+                }));
+            });
 
             app.UseMvc();
         }
