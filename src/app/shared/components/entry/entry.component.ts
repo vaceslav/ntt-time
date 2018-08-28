@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ITimeEntry } from '../../swagger';
 
 @Component({
   selector: 'time-entry',
@@ -6,7 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./entry.component.scss']
 })
 export class EntryComponent implements OnInit {
-  @Input() item: string;
+  @Input()
+  item: ITimeEntry;
 
   constructor() {}
 
