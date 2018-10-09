@@ -1,14 +1,26 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
+import { reducers } from './+state/reducers';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { API_BASE_URL } from './shared/swagger';
-import { HttpClientModule } from '@angular/common/http';
 
+//import { effects } from './+state';
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    StoreModule.forRoot(reducers),
+    //,EffectsModule.forRoot(effects),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    HttpClientModule
+  ],
   providers: [
     {
       provide: API_BASE_URL,

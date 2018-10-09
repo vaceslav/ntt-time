@@ -16,10 +16,6 @@ export class EntryListComponent implements OnInit {
     this.timeEntryClient.get().subscribe(items => {
       this.entries = items;
     });
-
-    // this.entriesService.getItems().subscribe(items => {
-    //   this.entries = items;
-    // });
   }
 
   deleteClick() {
