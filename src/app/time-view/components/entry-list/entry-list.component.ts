@@ -38,4 +38,18 @@ export class EntryListComponent implements OnInit {
       });
     });
   }
+
+  createNewClick() {
+    const start = new Date();
+    const end = new Date();
+    end.setHours(start.getHours() + 8);
+
+    this.store.dispatch(
+      new fromStore.CreateTimeEntry({
+        id: 0,
+        start,
+        end
+      })
+    );
+  }
 }
