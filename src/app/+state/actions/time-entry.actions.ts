@@ -1,4 +1,4 @@
-import { TimeEntry } from '../../shared/swagger';
+import { ITimeEntry } from '../../shared/swagger';
 
 export const LOAD_TIME_ENTRIES = '[TIME_ENTRY] LOAD_TIME_ENTRIES';
 export const LOAD_TIME_ENTRIES_SUCCESS = '[TIME_ENTRY] LOAD_TIME_ENTRIES_SUCCESS';
@@ -11,17 +11,17 @@ export class LoadTimeEntries {
 
 export class LoadTimeEntriesSuccess {
   readonly type = LOAD_TIME_ENTRIES_SUCCESS;
-  constructor(public payload: TimeEntry[]) {}
+  constructor(public payload: ITimeEntry[]) {}
 }
 
 export class CreateTimeEntry {
   readonly type = CREATE_TIME_ENTRY;
-  constructor(public payload: TimeEntry) {}
+  constructor(public payload: ITimeEntry) {}
 }
 
 export class CreateTimeEntrySuccess {
   readonly type = CREATE_TIME_ENTRY_SUCCESS;
-  constructor(public payload: TimeEntry) {}
+  constructor(public payload: ITimeEntry) {}
 }
 
 export type TimeEntryAction = LoadTimeEntries | LoadTimeEntriesSuccess | CreateTimeEntry | CreateTimeEntrySuccess;
