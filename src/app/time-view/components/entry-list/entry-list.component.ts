@@ -1,21 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+=import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { EntriesService } from '../../../shared/services/entries.service';
+import { ITimeEntry, TimeEntryClient } from '../../../shared/swagger';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'time-entry-list',
   templateUrl: './entry-list.component.html',
-  styleUrls: ['./entry-list.component.scss']
+  styleUrls: ['./entry-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EntryListComponent implements OnInit {
-  public entries: string[];
+  private _entries: Observable<ITimeEntry[]>;
 
-  constructor(private entriesService: EntriesService) {}
+  public ids$: Observable<number[]>;
+
+  constructor(private timeEntryClient: TimeEntryClient) {}
 
   ngOnInit() {
-    this.entries = this.entriesService.items;
+    this._entries = this.timeEntryClient.get();
 
-    this.entriesService.getItems().subscribe(items => {
-      this.entries = items;
+    this.ids$ = this._entries.pipe(
+      map(items => items.map(i => i.id)),
+      map(ids => ids.filter(i => i % 2))
+    );
+  }
+
+  public get entries() {
+    console.log(new Date());
+    return this._entries;
+  }
+
+  testClick() {
+    this.toString();
+  }
+
+  deleteItemClick(item: ITimeEntry) {
+    this.timeEntryClient.delete(item.id).subscribe(() => {
+      // this.timeEntryClient.get().subscribe(items => {
+      //   this._entries = items;
+      // });
     });
   }
 }

@@ -2,4 +2,10 @@
   entry-list works!
 </p>
 
-<time-entry *ngFor="let i of entries" [item]="i"></time-entry>
+<time-entry *ngFor="let i of entries | async" (deleteItem)="deleteItemClick(i)"  [item]="i"></time-entry>
+
+
+<div *ngFor="let id of ids$ | async">{{id}}</div>
+
+
+<button (click)="testClick()">TEST</button>

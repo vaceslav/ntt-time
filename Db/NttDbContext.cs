@@ -7,5 +7,7 @@ namespace NttTimeApi.Db
         public NttDbContext(DbContextOptions<NttDbContext> options) : base(options)
         {
         }
+
+        public DbSet<TimeEntry> TimeEntries { get; set; }
     }
 }
