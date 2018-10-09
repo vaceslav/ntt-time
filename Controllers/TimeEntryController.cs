@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,9 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeEntry), 200)]
         public async Task<IActionResult> Create([FromBody] TimeEntry entry)
         {
+
+            Thread.Sleep(5000);
+
             var result = await _context.TimeEntries.AddAsync(entry);
             _context.SaveChanges();
             return Ok(entry);
