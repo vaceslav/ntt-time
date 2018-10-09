@@ -11,7 +11,7 @@ export const initialState: TimeEntryState = adapter.getInitialState({});
 
 export function timeEntryReducer(state = initialState, action: entry.TimeEntryAction): TimeEntryState {
   switch (action.type) {
-    case entry.TIME_ENTRIES_LOADED:
+    case entry.LOAD_TIME_ENTRIES_SUCCESS:
       return adapter.addAll(action.payload, state);
     case entry.CREATE_TIME_ENTRY_SUCCESS:
       return adapter.addOne(action.payload, state);
