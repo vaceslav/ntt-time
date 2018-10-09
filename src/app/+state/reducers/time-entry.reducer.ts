@@ -1,11 +1,11 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { TimeEntry } from 'src/app/shared/swagger';
+import { ITimeEntry } from 'src/app/shared/swagger';
 
 import * as entry from '../actions/time-entry.actions';
 
-export interface TimeEntryState extends EntityState<TimeEntry> {}
+export interface TimeEntryState extends EntityState<ITimeEntry> {}
 
-export const adapter: EntityAdapter<TimeEntry> = createEntityAdapter<TimeEntry>();
+export const adapter: EntityAdapter<ITimeEntry> = createEntityAdapter<ITimeEntry>();
 
 export const initialState: TimeEntryState = adapter.getInitialState({});
 
