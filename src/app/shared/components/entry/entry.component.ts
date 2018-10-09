@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ITimeEntry } from '../../swagger';
 
 @Component({
@@ -10,7 +10,14 @@ export class EntryComponent implements OnInit {
   @Input()
   item: ITimeEntry;
 
+  @Output()
+  delete = new EventEmitter();
+
   constructor() {}
 
   ngOnInit() {}
+
+  deleteClick() {
+    this.delete.emit();
+  }
 }

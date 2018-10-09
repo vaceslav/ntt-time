@@ -15,6 +15,8 @@ export function timeEntryReducer(state = initialState, action: entry.TimeEntryAc
       return adapter.addAll(action.payload, state);
     case entry.CREATE_TIME_ENTRY_SUCCESS:
       return adapter.addOne(action.payload, state);
+    case entry.DELETE_TIME_ENTRY_SUCCESS:
+      return adapter.removeOne(action.payload.id, state);
     default:
       return state;
   }
