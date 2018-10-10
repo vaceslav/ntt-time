@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./entry-list.component.scss']
 })
 export class EntryListComponent implements OnInit {
-  public entries: ITimeEntry[];
   entries$: Observable<ITimeEntry[]>;
 
   constructor(
@@ -24,18 +23,26 @@ export class EntryListComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new fromStore.LoadTimeEntries());
 
-    //this.entries$ = this.store.pipe(select(fromStore.selectAll));
-
-    this.timeEntryClient.get().subscribe(items => {
-      this.entries = items;
-    });
+    this.entries$ = this.store.pipe(select(fromStore.selectAll));
   }
 
-  deleteClick() {
-    this.timeEntryClient.delete(1).subscribe(() => {
-      this.timeEntryClient.get().subscribe(items => {
-        this.entries = items;
-      });
-    });
+  createNewItemClick() {
+    const start = new Date();
+    const end = new Date();
+    end.setHours(start.getHours() + 8);
+
+    const id = 0;
+
+    this.store.dispatch(
+      new fromStore.CreateTimeEntry({
+        id,
+        start,
+        end
+      })
+    );
+  }
+
+  deleteClick(item: ITimeEntry) {
+    this.store.dispatch(new fromStore.DeleteTimeEntry(item));
   }
 }

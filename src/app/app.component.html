@@ -1,1 +1,4 @@
+<h3>Items Count: {{itemCount$ | async}}</h3>
+
+<h1 *ngIf="isCreating$ | async">Creating new Entry...</h1>
 <router-outlet></router-outlet>

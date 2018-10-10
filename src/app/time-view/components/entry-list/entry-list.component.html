@@ -2,6 +2,6 @@
   entry-list works!
 </p>
 
-<time-entry *ngFor="let i of entries" [item]="i"></time-entry>
+<time-entry *ngFor="let i of entries$ | async" [item]="i" (delete)="deleteClick(i)"></time-entry>
 
-<button (click)="deleteClick()">Delete with ID 1</button>
+<button (click)="createNewItemClick()">Create new item</button>
