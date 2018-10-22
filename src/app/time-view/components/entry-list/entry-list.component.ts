@@ -12,12 +12,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./entry-list.component.scss']
 })
 export class EntryListComponent implements OnInit {
-  public entries: ITimeEntry[];
   entries$: Observable<ITimeEntry[]>;
+  selectedItem: ITimeEntry;
 
-  constructor(
-    private store: Store<fromStore.AppState>
-  ) {}
+  constructor(private store: Store<fromStore.AppState>) {}
 
   ngOnInit() {
     this.store.dispatch(new fromStore.LoadTimeEntries());
@@ -30,10 +28,18 @@ export class EntryListComponent implements OnInit {
     const end = new Date();
     end.setHours(start.getHours() + 8);
 
-    this.store.dispatch(new fromStore.CreateTimeEntry({ id: 0, start, end }));
+    this.store.dispatch(new fromStore.CreateTimeEntry({ id: 0, start, end, updatedAt: undefined }));
   }
 
   deleteClick(item: ITimeEntry) {
     this.store.dispatch(new fromStore.DeleteTimeEntry(item));
+  }
+
+  updateClick(item: ITimeEntry) {
+    this.store.dispatch(new fromStore.UpdateTimeEntry(item));
+  }
+
+  selectItem(item: ITimeEntry) {
+    this.selectedItem = item;
   }
 }

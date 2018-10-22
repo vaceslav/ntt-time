@@ -53,5 +53,7 @@ export type TimeEntryAction =
   | LoadTimeEntriesSuccess
   | CreateTimeEntry
   | CreateTimeEntrySuccess
+  | UpdateTimeEntry
+  | UpdateTimeEntrySuccess
   | DeleteTimeEntry
   | DeleteTimeEntrySuccess;

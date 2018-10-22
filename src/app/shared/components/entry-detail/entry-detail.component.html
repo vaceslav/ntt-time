@@ -1,0 +1,20 @@
+<h2>Time Entry Details: </h2>
+
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <span>ID:</span>
+    <span>{{item.id}}</span>
+  </div>
+  <div>
+      <label>Start</label>
+      <input type="text"  [(ngModel)]="item.start" name="start">
+  </div>
+  <div>
+      <label>End</label>
+      <input type="text"  [(ngModel)]="item.start" name="start">
+  </div>
+
+  <button type="submit">Update</button>
+</form>
+
+

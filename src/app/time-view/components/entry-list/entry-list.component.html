@@ -3,7 +3,14 @@
 </p>
 
 <time-entry *ngFor="let i of entries$ | async"
+            (click)="selectItem(i)"
             [item]="i"
-            (delete)="deleteClick(i)"></time-entry>
+            (delete)="deleteClick(i)"
+            ></time-entry>
 
 <button (click)="createNewClick()">Create New Item</button>
+
+<time-entry-detail *ngIf="selectedItem"
+                   [item]="selectedItem"
+                   (update)="updateClick($event)"></time-entry-detail>
+

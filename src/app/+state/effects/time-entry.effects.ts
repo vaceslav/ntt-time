@@ -28,6 +28,17 @@ export class TimeEntryEffects {
     );
 
   @Effect()
+  updateItem$: Observable<Action> = this.actions$
+    .ofType<timeActions.UpdateTimeEntry>(timeActions.UPDATE_TIME_ENTRY)
+    .pipe(
+      switchMap(action => {
+        return this.timeEntryClient
+          .update(action.payload.id, action.payload as TimeEntry)
+          .pipe(map(item => new timeActions.UpdateTimeEntrySuccess(item)));
+      })
+    );
+
+  @Effect()
   deleteItem$: Observable<Action> = this.actions$
     .ofType<timeActions.DeleteTimeEntry>(timeActions.DELETE_TIME_ENTRY)
     .pipe(

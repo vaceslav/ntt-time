@@ -1,4 +1,5 @@
 <span>{{item.id}}</span>
-<span>{{item.start}}</span>
-<span>{{item.end}}</span>
+<span>{{item.start | date}}</span>
+<span>{{item.end | date}}</span>
+<span>{{item.updatedAt | date:'long'}}</span>
 <button (click)="deleteClick()">DELETE</button>
