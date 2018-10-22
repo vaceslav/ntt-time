@@ -34,9 +34,6 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeEntry), 200)]
         public async Task<IActionResult> Create([FromBody] TimeEntry entry)
         {
-
-            Thread.Sleep(5000);
-
             var result = await _context.TimeEntries.AddAsync(entry);
             _context.SaveChanges();
             return Ok(entry);
@@ -52,6 +49,20 @@ namespace ntt_time.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] TimeEntry entry)
+        {
+            var item = await _context.TimeEntries.FirstAsync(i => i.Id == id);
+            if(item != null){
+                _context.Entry(item).CurrentValues.SetValues(entry);
+                //_context.Attach Update(entry);
+                _context.SaveChanges();
+                return Ok();
+            }else{
+                return NotFound();
+            }
         }
 
     }
