@@ -1,3 +1,15 @@
-<h3>Number of Items: {{numberOfItems$ | async}}</h3>
-<h1 *ngIf="isCreating$ | async">Item wird erstellt....</h1>
-<router-outlet></router-outlet>
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span routerLink="">NTT Time Managemnet System</span>
+        <button mat-button color="primary">Items</button>
+        <button mat-button color="primary">Analyze</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="content">
+    <h3>Number of Items: {{numberOfItems$ | async}}</h3>
+    <h1 *ngIf="isCreating$ | async">Item wird erstellt....</h1>
+    <router-outlet></router-outlet>
+</div>
+

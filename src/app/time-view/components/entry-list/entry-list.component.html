@@ -1,12 +1,14 @@
 <p>
   entry-list works!
 </p>
+<mat-list>
+  <time-entry *ngFor="let i of entries$ | async"
+              mat-list-item
+              (click)="selectItem(i)"
+              [item]="i"
+              (delete)="deleteClick(i)"></time-entry>
+</mat-list>
 
-<time-entry *ngFor="let i of entries$ | async"
-            (click)="selectItem(i)"
-            [item]="i"
-            (delete)="deleteClick(i)"
-            ></time-entry>
 
 <button (click)="createNewClick()">Create New Item</button>
 

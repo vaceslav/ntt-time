@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatToolbarModule, MatButtonModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -11,6 +12,7 @@ import { reducers } from './+state/reducers';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { API_BASE_URL } from './shared/swagger';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,10 @@ import { API_BASE_URL } from './shared/swagger';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [
     {
