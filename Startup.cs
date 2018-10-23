@@ -14,7 +14,9 @@ using NttTimeApi.Db;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.Processors.Security;
-
+using GraphQL;
+using GraphQL.Types;
+using NttTimeApi.GraphQL;
 
 namespace ntt_time
 {
@@ -36,6 +38,11 @@ namespace ntt_time
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ntt_time;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<NttDbContext>(options => options.UseSqlServer(connection));
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<TimeEntryQuery>();
+            services.AddSingleton<TimeEntryType>();
+            var sp = services.BuildServiceProvider();
+            services.AddSingleton<ISchema>(new TimeEntryShema(new FuncDependencyResolver(type => sp.GetService(type))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +67,7 @@ namespace ntt_time
                 }));
             });
 
+            app.UseGraphiQl();
             app.UseMvc();
         }
     }
