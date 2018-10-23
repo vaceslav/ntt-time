@@ -4,7 +4,7 @@
 <mat-list>
   <time-entry *ngFor="let i of entries$ | async"
               mat-list-item
-              (click)="selectItem(i)"
+              [routerLink]="i.id"
               [item]="i"
               (delete)="deleteClick(i)"></time-entry>
 </mat-list>
