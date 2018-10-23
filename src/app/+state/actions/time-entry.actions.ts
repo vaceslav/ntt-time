@@ -2,6 +2,8 @@ import { ITimeEntry } from '../../shared/swagger';
 
 export const LOAD_TIME_ENTRIES = '[TIME_ENTRY] LOAD_TIME_ENTRIES';
 export const LOAD_TIME_ENTRIES_SUCCESS = '[TIME_ENTRY] LOAD_TIME_ENTRIES_SUCCESS';
+export const LOAD_TIME_ENTRY = '[TIME_ENTRY] LOAD_TIME_ENTRY';
+export const LOAD_TIME_ENTRY_SUCCESS = '[TIME_ENTRY] LOAD_TIME_ENTRY_SUCCESS';
 export const CREATE_TIME_ENTRY = '[TIME_ENTRY] Create Entry';
 export const CREATE_TIME_ENTRY_SUCCESS = '[TIME_ENTRY] Create Entry Success';
 export const UPDATE_TIME_ENTRY = '[TIME_ENTRY] UPDATE_TIME_ENTRY';
@@ -18,6 +20,15 @@ export class LoadTimeEntriesSuccess {
   constructor(public payload: ITimeEntry[]) {}
 }
 
+export class LoadTimeEntry {
+  readonly type = LOAD_TIME_ENTRY;
+  constructor(public payload: number) {}
+}
+
+export class LoadTimeEntrySuccess {
+  readonly type = LOAD_TIME_ENTRY_SUCCESS;
+  constructor(public payload: ITimeEntry) {}
+}
 export class CreateTimeEntry {
   readonly type = CREATE_TIME_ENTRY;
   constructor(public payload: ITimeEntry) {}
@@ -51,6 +62,8 @@ export class DeleteTimeEntrySuccess {
 export type TimeEntryAction =
   | LoadTimeEntries
   | LoadTimeEntriesSuccess
+  | LoadTimeEntry
+  | LoadTimeEntrySuccess
   | CreateTimeEntry
   | CreateTimeEntrySuccess
   | UpdateTimeEntry
