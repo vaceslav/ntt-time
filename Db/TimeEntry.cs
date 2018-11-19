@@ -11,5 +11,11 @@ public class TimeEntry
 
     public DateTime End { get; set; }
 
-    public DateTime UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+
+    public double? Duration { 
+        get {
+            return End.Subtract(Start).TotalMinutes;
+        }
+     }
 }

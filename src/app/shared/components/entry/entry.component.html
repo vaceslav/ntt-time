@@ -1,9 +1,9 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <span>{{item.id}}</span>
     <span>{{item.start | date}}</span>
-    <span>{{item.end | date}}</span>
-    <button mat-icon-button
-            (click)="deleteClick($event)">
+    <span>{{item.start | date:'shortTime'}}</span>
+    <span>{{item.end | date:'shortTime'}}</span>
+    <span>{{item.duration}}</span>
+    <button mat-icon-button (click)="deleteClick($event)">
         <mat-icon>delete</mat-icon>
     </button>
 </div>

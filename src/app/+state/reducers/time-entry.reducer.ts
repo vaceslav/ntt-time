@@ -5,18 +5,26 @@ import * as entry from '../actions/time-entry.actions';
 
 export interface TimeEntryState extends EntityState<ITimeEntry> {
   itemIsCreating: boolean;
+  selectedId: number;
 }
 
 export const adapter: EntityAdapter<ITimeEntry> = createEntityAdapter<ITimeEntry>();
 
 export const initialState: TimeEntryState = adapter.getInitialState({
-  itemIsCreating: false
+  itemIsCreating: false,
+  selectedId: undefined
 });
 
 export function timeEntryReducer(state = initialState, action: entry.TimeEntryAction): TimeEntryState {
   switch (action.type) {
     case entry.LOAD_TIME_ENTRIES_SUCCESS:
       return adapter.addAll(action.payload, state);
+    case entry.LOAD_TIME_ENTRY_SUCCESS:
+      return {
+        ...(state = adapter.addOne(action.payload, state)),
+        selectedId: action.payload.id
+      };
+
     case entry.CREATE_TIME_ENTRY:
     case entry.UPDATE_TIME_ENTRY:
       return {
@@ -40,3 +48,4 @@ export function timeEntryReducer(state = initialState, action: entry.TimeEntryAc
 }
 
 export const getItemIsCreating = (state: TimeEntryState) => state.itemIsCreating;
+export const getSelectedId = (state: TimeEntryState) => state.selectedId;

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState, getSelectedItem } from 'src/app/+state';
+import { ITimeEntry } from 'src/app/shared/swagger';
 
 @Component({
   selector: 'time-entry-details-container',
@@ -6,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./entry-details-container.component.scss']
 })
 export class EntryDetailsContainerComponent implements OnInit {
-  constructor() {}
+  item$: Observable<ITimeEntry>;
+
+  constructor(private store: Store<AppState>) {
+    this.item$ = this.store.pipe(select(getSelectedItem));
+  }
 
   ngOnInit() {}
 }

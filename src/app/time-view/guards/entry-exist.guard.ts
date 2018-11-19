@@ -17,7 +17,6 @@ export class EntryExistGuard implements CanActivate {
 
     this.store.dispatch(new LoadTimeEntry(id));
 
-    debugger;
     return true;
   }
 

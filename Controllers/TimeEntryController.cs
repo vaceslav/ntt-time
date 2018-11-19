@@ -30,6 +30,14 @@ namespace ntt_time.Controllers
             return Ok(await _context.TimeEntries.ToListAsync());
         }
 
+        // GET api/values
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(TimeEntry), 200)]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await _context.TimeEntries.FirstAsync(i => i.Id == id));
+        }
+
         [HttpPost("")]
         [ProducesResponseType(typeof(TimeEntry), 200)]
         public async Task<IActionResult> Create([FromBody] TimeEntry entry)

@@ -6,6 +6,28 @@ export const getTimeState = createFeatureSelector<fromTimeEntries.TimeEntryState
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = fromTimeEntries.adapter.getSelectors(getTimeState);
 
-export const getItemIsCreating = createSelector(getTimeState, fromTimeEntries.getItemIsCreating);
+export const getItemIsCreating = createSelector(
+  getTimeState,
+  fromTimeEntries.getItemIsCreating
+);
+export const getSelectedId = createSelector(
+  getTimeState,
+  fromTimeEntries.getSelectedId
+);
 
-export const numberOfItems = createSelector(selectAll, all => all.length);
+export const numberOfItems = createSelector(
+  selectAll,
+  all => all.length
+);
+
+export const getSelectedItem = createSelector(
+  selectAll,
+  getSelectedId,
+  (all, selectedId) => {
+    if (!all || !selectedId) {
+      return undefined;
+    }
+
+    return all.find(i => i.id === selectedId);
+  }
+);

@@ -30,7 +30,7 @@ export class EntryListComponent implements OnInit {
     const end = new Date();
     end.setHours(start.getHours() + 8);
 
-    this.store.dispatch(new fromStore.CreateTimeEntry({ id: 0, start, end, updatedAt: undefined }));
+    this.store.dispatch(new fromStore.CreateTimeEntry({ id: 0, start, end }));
   }
 
   deleteClick(item: ITimeEntry) {

@@ -26,7 +26,7 @@ export class TimeEntryClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:5000";
     }
 
-    get(): Observable<TimeEntry[] | null> {
+    getAll(): Observable<TimeEntry[] | null> {
         let url_ = this.baseUrl + "/api/TimeEntry";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -39,11 +39,11 @@ export class TimeEntryClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
+            return this.processGetAll(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(<any>response_);
+                    return this.processGetAll(<any>response_);
                 } catch (e) {
                     return <Observable<TimeEntry[] | null>><any>_observableThrow(e);
                 }
@@ -52,7 +52,7 @@ export class TimeEntryClient {
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<TimeEntry[] | null> {
+    protected processGetAll(response: HttpResponseBase): Observable<TimeEntry[] | null> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -109,6 +109,57 @@ export class TimeEntryClient {
     }
 
     protected processCreate(response: HttpResponseBase): Observable<TimeEntry | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TimeEntry.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TimeEntry | null>(<any>null);
+    }
+
+    get(id: number): Observable<TimeEntry | null> {
+        let url_ = this.baseUrl + "/api/TimeEntry/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<TimeEntry | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TimeEntry | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<TimeEntry | null> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -502,7 +553,8 @@ export class TimeEntry implements ITimeEntry {
     id: number;
     start: Date;
     end: Date;
-    updatedAt: Date;
+    updatedAt?: Date | undefined;
+    duration?: number | undefined;
 
     constructor(data?: ITimeEntry) {
         if (data) {
@@ -519,6 +571,7 @@ export class TimeEntry implements ITimeEntry {
             this.start = data["start"] ? new Date(data["start"].toString()) : <any>undefined;
             this.end = data["end"] ? new Date(data["end"].toString()) : <any>undefined;
             this.updatedAt = data["updatedAt"] ? new Date(data["updatedAt"].toString()) : <any>undefined;
+            this.duration = data["duration"];
         }
     }
 
@@ -535,6 +588,7 @@ export class TimeEntry implements ITimeEntry {
         data["start"] = this.start ? this.start.toISOString() : <any>undefined;
         data["end"] = this.end ? this.end.toISOString() : <any>undefined;
         data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
+        data["duration"] = this.duration;
         return data; 
     }
 }
@@ -543,7 +597,8 @@ export interface ITimeEntry {
     id: number;
     start: Date;
     end: Date;
-    updatedAt: Date;
+    updatedAt?: Date | undefined;
+    duration?: number | undefined;
 }
 
 export interface FileResponse {

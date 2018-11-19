@@ -1,9 +1,15 @@
-
 <div fxLayout="row">
     <button mat-raised-button (click)="createNewClick()">Create New Item</button>
     <mat-spinner *ngIf="isCreating$ | async" [diameter]="40" style="margin-left: 25px;"></mat-spinner>
 </div>
 
+<div fxLayout="row" fxLayoutAlign="space-between center"class="labels"  style="font-weight: 600;">
+  <div>Date</div>
+  <div>Start</div>
+  <div>End</div>
+  <div>Duration</div>
+  <div>&nbsp;</div>
+</div>
 
 <mat-list>
   <time-entry *ngFor="let i of entries$ | async"

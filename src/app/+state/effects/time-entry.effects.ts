@@ -13,7 +13,15 @@ export class TimeEntryEffects {
   loadAll$: Observable<Action> = this.actions$.pipe(
     ofType<timeActions.LoadTimeEntries>(timeActions.LOAD_TIME_ENTRIES),
     switchMap(action => {
-      return this.timeEntryClient.get().pipe(map(items => new timeActions.LoadTimeEntriesSuccess(items)));
+      return this.timeEntryClient.getAll().pipe(map(items => new timeActions.LoadTimeEntriesSuccess(items)));
+    })
+  );
+
+  @Effect()
+  loadEntry$: Observable<Action> = this.actions$.pipe(
+    ofType<timeActions.LoadTimeEntry>(timeActions.LOAD_TIME_ENTRY),
+    switchMap(action => {
+      return this.timeEntryClient.get(action.payload).pipe(map(item => new timeActions.LoadTimeEntrySuccess(item)));
     })
   );
 
