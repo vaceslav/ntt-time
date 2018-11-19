@@ -9,6 +9,7 @@ import { MatDatepickerModule, MatMomentDateModule } from '@coachcare/datepicker'
 import { EntryDetailComponent } from 'src/app/shared/components/entry-detail/entry-detail.component';
 
 import { EntryComponent } from './components/entry/entry.component';
+import { HourPipe } from './services/hours.pipe';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { EntryComponent } from './components/entry/entry.component';
     FlexLayoutModule,
     AmazingTimePickerModule
   ],
-  declarations: [EntryComponent, EntryDetailComponent],
+  declarations: [EntryComponent, EntryDetailComponent, HourPipe],
   exports: [EntryComponent, EntryDetailComponent]
 })
 export class SharedModule {}
