@@ -1,5 +1,9 @@
-<span>{{item.id}}</span>
-<span>{{item.start | date}}</span>
-<span>{{item.end | date}}</span>
-<span>{{item.updatedAt | date:'long'}}</span>
-<button (click)="deleteClick()">DELETE</button>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <span>{{item.id}}</span>
+    <span>{{item.start | date}}</span>
+    <span>{{item.end | date}}</span>
+    <button mat-icon-button
+            (click)="deleteClick($event)">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>

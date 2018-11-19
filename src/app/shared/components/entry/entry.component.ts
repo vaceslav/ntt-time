@@ -17,7 +17,8 @@ export class EntryComponent implements OnInit {
 
   ngOnInit() {}
 
-  deleteClick() {
+  deleteClick($event: MouseEvent) {
+    $event.stopPropagation();
     this.delete.emit();
   }
 }

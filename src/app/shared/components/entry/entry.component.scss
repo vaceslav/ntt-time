@@ -1,8 +1,15 @@
+@import "variables";
+
 :host {
     display: block;
     line-height: 50px;
+    cursor: pointer;
 
     span {
         margin: 15px;
+    }
+
+    &:hover{
+        background-color: $color-hover;
     }
 }

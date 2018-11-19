@@ -1,6 +1,10 @@
-<p>
-  entry-list works!
-</p>
+
+<div fxLayout="row">
+    <button mat-raised-button (click)="createNewClick()">Create New Item</button>
+    <mat-spinner *ngIf="isCreating$ | async" [diameter]="40" style="margin-left: 25px;"></mat-spinner>
+</div>
+
+
 <mat-list>
   <time-entry *ngFor="let i of entries$ | async"
               mat-list-item
@@ -8,9 +12,6 @@
               [item]="i"
               (delete)="deleteClick(i)"></time-entry>
 </mat-list>
-
-
-<button (click)="createNewClick()">Create New Item</button>
 
 <time-entry-detail *ngIf="selectedItem"
                    [item]="selectedItem"

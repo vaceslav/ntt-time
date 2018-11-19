@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import * as fromStore from './+state';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'time-root',
@@ -11,14 +11,11 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   title = 'time';
-  isCreating$: Observable<boolean>;
   numberOfItems$: Observable<number>;
 
   constructor(private store: Store<fromStore.AppState>) {}
 
   ngOnInit(): void {
-    this.isCreating$ = this.store.pipe(select(fromStore.getItemIsCreating));
-
     this.numberOfItems$ = this.store.pipe(select(fromStore.numberOfItems));
   }
 }

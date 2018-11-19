@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 export class EntryListComponent implements OnInit {
   entries$: Observable<ITimeEntry[]>;
   selectedItem: ITimeEntry;
+  isCreating$: Observable<boolean>;
 
   constructor(private store: Store<fromStore.AppState>) {}
 
@@ -21,6 +22,7 @@ export class EntryListComponent implements OnInit {
     this.store.dispatch(new fromStore.LoadTimeEntries());
 
     this.entries$ = this.store.pipe(select(fromStore.selectAll));
+    this.isCreating$ = this.store.pipe(select(fromStore.getItemIsCreating));
   }
 
   createNewClick() {
