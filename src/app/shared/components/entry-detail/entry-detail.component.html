@@ -1,20 +1,37 @@
 <h2>Time Entry Details: </h2>
 
+<div fxLayout="row">
+    <label fxFlex="10">Day:</label>
+    <span>{{item?.start | date}}</span>
+</div>
+
+<div fxLayout="row">
+    <label fxFlex="10">Start:</label>
+    <input type="time" [value]="start" disabled/>
+    <button mat-icon-button (click)="selectStart()">
+      <mat-icon>access_time</mat-icon>
+    </button>
+</div>
+
+<div fxLayout="row">
+    <label fxFlex="10">End:</label>
+    <input type="time" [value]="end" disabled/>
+    <button mat-icon-button (click)="selectEnd()">
+        <mat-icon>access_time</mat-icon>
+      </button>
+</div>
+
 <form (ngSubmit)="onSubmit()">
-  <div>
-    <span>ID:</span>
-    <span>{{item.id}}</span>
-  </div>
-  <div>
+  <!-- <div>
       <label>Start</label>
       <input type="text"  [(ngModel)]="item.start" name="start">
   </div>
   <div>
       <label>End</label>
       <input type="text"  [(ngModel)]="item.end" name="end">
-  </div>
+  </div> -->
 
-  <button type="submit">Update</button>
+  <!-- <button type="submit">Update</button> -->
 </form>
 
 

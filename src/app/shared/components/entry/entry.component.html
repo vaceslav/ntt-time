@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
     <span>{{item.start | date}}</span>
-    <span>{{item.start | date:'shortTime'}}</span>
+    <span>{{item.start | date:'shortTime':'de'}}</span>
     <span>{{item.end | date:'shortTime'}}</span>
     <span>{{item.duration}}</span>
     <button mat-icon-button (click)="deleteClick($event)">

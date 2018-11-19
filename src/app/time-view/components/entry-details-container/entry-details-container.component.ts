@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState, getSelectedItem } from 'src/app/+state';
+import { AppState, getSelectedItem, UpdateTimeEntry } from 'src/app/+state';
 import { ITimeEntry } from 'src/app/shared/swagger';
 
 @Component({
@@ -17,4 +17,8 @@ export class EntryDetailsContainerComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  updateItem(item: ITimeEntry) {
+    this.store.dispatch(new UpdateTimeEntry(item));
+  }
 }
