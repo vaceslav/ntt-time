@@ -15,6 +15,7 @@ export class EntryListComponent implements OnInit {
   entries$: Observable<ITimeEntry[]>;
   selectedItem: ITimeEntry;
   isCreating$: Observable<boolean>;
+  length$: Observable<number>;
 
   constructor(private store: Store<fromStore.AppState>) {}
 
@@ -23,6 +24,7 @@ export class EntryListComponent implements OnInit {
 
     this.entries$ = this.store.pipe(select(fromStore.selectAll));
     this.isCreating$ = this.store.pipe(select(fromStore.getItemIsCreating));
+    this.length$ = this.store.pipe(select(fromStore.getTotalCount));
   }
 
   createNewClick() {

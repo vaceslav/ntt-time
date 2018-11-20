@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatListModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatButtonModule, MatListModule, MatProgressSpinnerModule, MatPaginatorModule } from '@angular/material';
 
 import { EntriesService } from '../shared/services/entries.service';
 import { SharedModule } from '../shared/shared.module';
@@ -17,7 +17,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatListModule,
     MatButtonModule,
     FlexLayoutModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ],
   providers: [EntriesService],
   declarations: [EntryListComponent, EntryDetailsContainerComponent]

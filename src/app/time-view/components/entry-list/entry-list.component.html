@@ -2,6 +2,13 @@
     <button mat-raised-button (click)="createNewClick()">Create New Item</button>
     <mat-spinner *ngIf="isCreating$ | async" [diameter]="40" style="margin-left: 25px;"></mat-spinner>
 </div>
+<br/>
+
+<mat-paginator [length]="length$ async"
+              [pageSize]="pageSize"
+              (page)="pageEvent = $event">
+</mat-paginator>
+
 
 <div fxLayout="row" fxLayoutAlign="space-between center"class="labels"  style="font-weight: 600;">
   <div>Date</div>

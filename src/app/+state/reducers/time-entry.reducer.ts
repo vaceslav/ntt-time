@@ -6,13 +6,15 @@ import * as entry from '../actions/time-entry.actions';
 export interface TimeEntryState extends EntityState<ITimeEntry> {
   itemIsCreating: boolean;
   selectedId: number;
+  totalCount: number;
 }
 
 export const adapter: EntityAdapter<ITimeEntry> = createEntityAdapter<ITimeEntry>();
 
 export const initialState: TimeEntryState = adapter.getInitialState({
   itemIsCreating: false,
-  selectedId: undefined
+  selectedId: undefined,
+  totalCount: undefined
 });
 
 export function timeEntryReducer(state = initialState, action: entry.TimeEntryAction): TimeEntryState {
@@ -49,3 +51,4 @@ export function timeEntryReducer(state = initialState, action: entry.TimeEntryAc
 
 export const getItemIsCreating = (state: TimeEntryState) => state.itemIsCreating;
 export const getSelectedId = (state: TimeEntryState) => state.selectedId;
+export const getTotalCount = (state: TimeEntryState) => state.totalCount;

@@ -30,6 +30,21 @@ namespace ntt_time.Controllers
             return Ok(await _context.TimeEntries.ToListAsync());
         }
 
+        // GET api/values/search
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(SearchResult), 200)]
+        public async Task<IActionResult> Search([FromBody] SearchRequest filter)
+        {
+            var count = await _context.TimeEntries.CountAsync();
+            var result = await _context.TimeEntries
+                                            .OrderBy(i => i.Start)
+                                            .Skip(filter.PageIndex * filter.PageSize)
+                                            .Take(filter.PageSize)
+                                            .ToListAsync();
+
+            return Ok(new SearchResult{TotalCount = count, Items = result});
+        }
+
         // GET api/values
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(TimeEntry), 200)]

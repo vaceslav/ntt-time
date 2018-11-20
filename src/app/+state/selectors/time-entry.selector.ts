@@ -14,6 +14,10 @@ export const getSelectedId = createSelector(
   getTimeState,
   fromTimeEntries.getSelectedId
 );
+export const getTotalCount = createSelector(
+  getTimeState,
+  fromTimeEntries.getTotalCount
+);
 
 export const numberOfItems = createSelector(
   selectAll,
