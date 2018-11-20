@@ -3,7 +3,7 @@
 </p>
 
 <time-entry *ngFor="let i of entries$ | async"
-            (click)="selectItem(i)"
+            [routerLink]="i.id"
             [item]="i"
             (delete)="deleteClick(i)"
             ></time-entry>

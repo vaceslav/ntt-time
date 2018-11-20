@@ -5,12 +5,14 @@ import * as entry from '../actions/time-entry.actions';
 
 export interface TimeEntryState extends EntityState<ITimeEntry> {
   itemIsCreating: boolean;
+  selectedItemId: number;
 }
 
 export const adapter: EntityAdapter<ITimeEntry> = createEntityAdapter<ITimeEntry>();
 
 export const initialState: TimeEntryState = adapter.getInitialState({
-  itemIsCreating: false
+  itemIsCreating: false,
+  selectedItemId: undefined
 });
 
 export function timeEntryReducer(state = initialState, action: entry.TimeEntryAction): TimeEntryState {
@@ -34,9 +36,15 @@ export function timeEntryReducer(state = initialState, action: entry.TimeEntryAc
       };
     case entry.DELETE_TIME_ENTRY_SUCCESS:
       return adapter.removeOne(action.payload.id, state);
+    case entry.LOAD_TIME_ENTRY:
+      return {
+        ...state,
+        selectedItemId: action.payload
+      };
     default:
       return state;
   }
 }
 
 export const getItemIsCreating = (state: TimeEntryState) => state.itemIsCreating;
+export const getSelectedId = (state: TimeEntryState) => state.selectedItemId;
