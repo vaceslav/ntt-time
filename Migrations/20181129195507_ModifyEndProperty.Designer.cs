@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NttTimeApi.Db;
 
 namespace ntttime.Migrations
 {
     [DbContext(typeof(NttDbContext))]
-    partial class NttDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181129195507_ModifyEndProperty")]
+    partial class ModifyEndProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,8 +49,6 @@ namespace ntttime.Migrations
                     b.Property<int>("Start");
 
                     b.Property<int?>("TimeEntryId");
-
-                    b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
 

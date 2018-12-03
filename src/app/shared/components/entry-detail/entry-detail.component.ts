@@ -1,6 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+
 import { ITimeEntry } from '../../swagger';
-import { AmazingTimePickerService } from 'amazing-time-picker';
+import {} from 'ngx-material-timepicker';
+import { debug } from 'util';
 
 @Component({
   selector: 'time-entry-detail',
@@ -14,7 +16,9 @@ export class EntryDetailComponent implements OnInit {
   @Output()
   update = new EventEmitter<ITimeEntry>();
 
-  constructor(private timePickerService: AmazingTimePickerService) {}
+  @ViewChild('fullTime') timePicker: any;
+
+  constructor() {}
 
   ngOnInit() {}
 
@@ -37,21 +41,25 @@ export class EntryDetailComponent implements OnInit {
   }
 
   selectStart() {
-    this.timePickerService
-      .open({
-        time: this.start
-      })
-      .afterClose()
-      .subscribe(time => this.setStart(time));
+    const test = this.timePicker;
+    //test.format = 24;
+    test.open();
+    debugger;
+    // this.timePickerService
+    //   .open({
+    //     time: this.start
+    //   })
+    //   .afterClose()
+    //   .subscribe(time => this.setStart(time));
   }
 
   selectEnd() {
-    this.timePickerService
-      .open({
-        time: this.end
-      })
-      .afterClose()
-      .subscribe(time => this.setEnd(time));
+    // this.timePickerService
+    //   .open({
+    //     time: this.end
+    //   })
+    //   .afterClose()
+    //   .subscribe(time => this.setEnd(time));
   }
 
   setStart(time: string): void {
@@ -85,5 +93,13 @@ export class EntryDetailComponent implements OnInit {
       hour: +input.substr(0, 2),
       minutes: +input.substr(3, 2)
     };
+  }
+
+  timePickerClosed() {
+    const test = this.timePicker;
+    const hour = test.selectedHour.time;
+    const minute = test.selectedMinute.time;
+
+    debugger;
   }
 }

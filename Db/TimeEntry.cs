@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class TimeEntry
 {
@@ -7,6 +8,8 @@ public class TimeEntry
     }
 
     public int Id { get; set; }
+
+    public List<TimeRange> Ranges {get; set;}
     public DateTime Start { get; set; }
 
     public DateTime End { get; set; }

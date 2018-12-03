@@ -50,7 +50,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeEntry), 200)]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _context.TimeEntries.FirstAsync(i => i.Id == id));
+            return Ok(await _context.TimeEntries.Include(i => i.Ranges).FirstAsync(i => i.Id == id));
         }
 
         [HttpPost("")]

@@ -8,9 +8,14 @@
 <div fxLayout="row">
     <label fxFlex="10">Start:</label>
     <input type="time" [value]="start" disabled/>
-    <button mat-icon-button (click)="selectStart()">
+    <button mat-icon-button [ngxTimepicker]="fullTime" [format]="24">
       <mat-icon>access_time</mat-icon>
     </button>
+
+    <!-- <input placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24"  readonly> -->
+
+    <ngx-material-timepicker #fullTime (closed)="timePickerClosed()"></ngx-material-timepicker>
+
 </div>
 
 <div fxLayout="row">

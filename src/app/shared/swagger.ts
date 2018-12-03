@@ -16,6 +16,132 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 @Injectable({
     providedIn: 'root'
 })
+export class RangeClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:5000";
+    }
+
+    add(timeEntryId: number, start: number): Observable<TimeRange | null> {
+        let url_ = this.baseUrl + "/api/Range/timeentry/{timeEntryId}/addrange/{start}";
+        if (timeEntryId === undefined || timeEntryId === null)
+            throw new Error("The parameter 'timeEntryId' must be defined.");
+        url_ = url_.replace("{timeEntryId}", encodeURIComponent("" + timeEntryId)); 
+        if (start === undefined || start === null)
+            throw new Error("The parameter 'start' must be defined.");
+        url_ = url_.replace("{start}", encodeURIComponent("" + start)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAdd(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAdd(<any>response_);
+                } catch (e) {
+                    return <Observable<TimeRange | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TimeRange | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAdd(response: HttpResponseBase): Observable<TimeRange | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TimeRange.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TimeRange | null>(<any>null);
+    }
+
+    update(timeEntryId: number, rangeId: number, range: TimeRange | null): Observable<TimeRange | null> {
+        let url_ = this.baseUrl + "/api/Range/timeentry/{timeEntryId}/range/{rangeId}";
+        if (timeEntryId === undefined || timeEntryId === null)
+            throw new Error("The parameter 'timeEntryId' must be defined.");
+        url_ = url_.replace("{timeEntryId}", encodeURIComponent("" + timeEntryId)); 
+        if (rangeId === undefined || rangeId === null)
+            throw new Error("The parameter 'rangeId' must be defined.");
+        url_ = url_.replace("{rangeId}", encodeURIComponent("" + rangeId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(range);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<TimeRange | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TimeRange | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<TimeRange | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TimeRange.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TimeRange | null>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class TimeEntryClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -128,6 +254,58 @@ export class TimeEntryClient {
             }));
         }
         return _observableOf<TimeEntry | null>(<any>null);
+    }
+
+    search(filter: SearchRequest | null): Observable<SearchResult | null> {
+        let url_ = this.baseUrl + "/api/TimeEntry/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(filter);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(<any>response_);
+                } catch (e) {
+                    return <Observable<SearchResult | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SearchResult | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<SearchResult | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SearchResult.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SearchResult | null>(<any>null);
     }
 
     get(id: number): Observable<TimeEntry | null> {
@@ -549,8 +727,57 @@ export class ValuesClient {
     }
 }
 
+export class TimeRange implements ITimeRange {
+    id: number;
+    start: number;
+    end?: number | undefined;
+    updatedAt: Date;
+
+    constructor(data?: ITimeRange) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.start = data["start"];
+            this.end = data["end"];
+            this.updatedAt = data["updatedAt"] ? new Date(data["updatedAt"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): TimeRange {
+        data = typeof data === 'object' ? data : {};
+        let result = new TimeRange();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["start"] = this.start;
+        data["end"] = this.end;
+        data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface ITimeRange {
+    id: number;
+    start: number;
+    end?: number | undefined;
+    updatedAt: Date;
+}
+
 export class TimeEntry implements ITimeEntry {
     id: number;
+    ranges?: TimeRange[] | undefined;
     start: Date;
     end: Date;
     updatedAt?: Date | undefined;
@@ -568,6 +795,11 @@ export class TimeEntry implements ITimeEntry {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
+            if (data["ranges"] && data["ranges"].constructor === Array) {
+                this.ranges = [];
+                for (let item of data["ranges"])
+                    this.ranges.push(TimeRange.fromJS(item));
+            }
             this.start = data["start"] ? new Date(data["start"].toString()) : <any>undefined;
             this.end = data["end"] ? new Date(data["end"].toString()) : <any>undefined;
             this.updatedAt = data["updatedAt"] ? new Date(data["updatedAt"].toString()) : <any>undefined;
@@ -585,6 +817,11 @@ export class TimeEntry implements ITimeEntry {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        if (this.ranges && this.ranges.constructor === Array) {
+            data["ranges"] = [];
+            for (let item of this.ranges)
+                data["ranges"].push(item.toJSON());
+        }
         data["start"] = this.start ? this.start.toISOString() : <any>undefined;
         data["end"] = this.end ? this.end.toISOString() : <any>undefined;
         data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
@@ -595,10 +832,99 @@ export class TimeEntry implements ITimeEntry {
 
 export interface ITimeEntry {
     id: number;
+    ranges?: TimeRange[] | undefined;
     start: Date;
     end: Date;
     updatedAt?: Date | undefined;
     duration?: number | undefined;
+}
+
+export class SearchRequest implements ISearchRequest {
+    pageIndex: number;
+    pageSize: number;
+
+    constructor(data?: ISearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pageIndex = data["pageIndex"];
+            this.pageSize = data["pageSize"];
+        }
+    }
+
+    static fromJS(data: any): SearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        return data; 
+    }
+}
+
+export interface ISearchRequest {
+    pageIndex: number;
+    pageSize: number;
+}
+
+export class SearchResult implements ISearchResult {
+    totalCount: number;
+    items?: TimeEntry[] | undefined;
+
+    constructor(data?: ISearchResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(TimeEntry.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ISearchResult {
+    totalCount: number;
+    items?: TimeEntry[] | undefined;
 }
 
 export interface FileResponse {
