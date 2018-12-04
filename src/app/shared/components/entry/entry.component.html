@@ -2,7 +2,7 @@
     <span>{{item.start | date}}</span>
     <span>{{item.start | date:'shortTime'}}</span>
     <span>{{item.end | date:'shortTime'}}</span>
-    <span>{{item.duration}}</span>
+    <span>{{item.duration | hour}}</span>
     <button mat-icon-button (click)="deleteClick($event)">
         <mat-icon>delete</mat-icon>
     </button>
