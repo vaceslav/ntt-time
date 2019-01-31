@@ -32,7 +32,7 @@ namespace ntt_time
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwagger();
+            services.AddSwaggerDocument();
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ntt_time;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<NttDbContext>(options => options.UseSqlServer(connection));
@@ -46,19 +46,21 @@ namespace ntt_time
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwaggerUi3WithApiExplorer(s =>
+            app.UseSwagger(s =>
             {
-                s.SwaggerRoute = "/swagger/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger";
+                s.Path = "/swagger/v1/swagger.json";
+                //s.SwaggerUiRoute = "/swagger";
 
-                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
-                {
-                    Type = SwaggerSecuritySchemeType.ApiKey,
-                    Name = "TEST_HEADER",
-                    In = SwaggerSecurityApiKeyLocation.Header,
-                    Description = "TEST_HEADER"
-                }));
+                // s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                // {
+                //     Type = SwaggerSecuritySchemeType.ApiKey,
+                //     Name = "TEST_HEADER",
+                //     In = SwaggerSecurityApiKeyLocation.Header,
+                //     Description = "TEST_HEADER"
+                // }));
             });
+
+            app.UseSwaggerUi3();
 
             app.UseMvc();
         }
