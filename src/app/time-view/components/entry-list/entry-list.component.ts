@@ -28,11 +28,11 @@ export class EntryListComponent implements OnInit {
   }
 
   createNewClick() {
-    const start = new Date();
-    const end = new Date();
-    end.setHours(start.getHours() + 8);
+    const start = 8 * 60;
+    const end = 17 * 60;
+    const day = new Date();
 
-    this.store.dispatch(new fromStore.CreateTimeEntry({ id: 0, start, end }));
+    this.store.dispatch(new fromStore.CreateTimeEntry({ id: 0, start, end, day }));
   }
 
   deleteClick(item: ITimeEntry) {

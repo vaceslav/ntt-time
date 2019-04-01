@@ -2,19 +2,16 @@
 
 <div fxLayout="row">
     <label fxFlex="10">Day:</label>
-    <span>{{item?.start | date}}</span>
+    <span>{{item?.day | date}}</span>
 </div>
 
 <div fxLayout="row">
     <label fxFlex="10">Start:</label>
     <input type="time" [value]="start" disabled/>
-    <button mat-icon-button [ngxTimepicker]="fullTime" [format]="24">
+    <button mat-icon-button (click)="selectStart()">
       <mat-icon>access_time</mat-icon>
     </button>
 
-    <!-- <input placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24"  readonly> -->
-
-    <ngx-material-timepicker #fullTime (closed)="timePickerClosed()"></ngx-material-timepicker>
 
 </div>
 
@@ -22,21 +19,12 @@
     <label fxFlex="10">End:</label>
     <input type="time" [value]="end" disabled/>
     <button mat-icon-button (click)="selectEnd()">
-        <mat-icon>access_time</mat-icon>
-      </button>
+      <mat-icon>access_time</mat-icon>
+    </button>
 </div>
 
-<form (ngSubmit)="onSubmit()">
-  <!-- <div>
-      <label>Start</label>
-      <input type="text"  [(ngModel)]="item.start" name="start">
-  </div>
-  <div>
-      <label>End</label>
-      <input type="text"  [(ngModel)]="item.end" name="end">
-  </div> -->
 
-  <!-- <button type="submit">Update</button> -->
-</form>
-
-
+<div style="width: 0; height: 0">
+    <button mat-icon-button [ngxTimepicker]="fullTime" [format]="24"></button>
+    <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+</div>

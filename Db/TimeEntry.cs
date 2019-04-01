@@ -9,16 +9,18 @@ public class TimeEntry
 
     public int Id { get; set; }
 
-    public List<TimeRange> Ranges {get; set;}
-    public DateTime Start { get; set; }
+    public DateTime Day {get; set; }
 
-    public DateTime End { get; set; }
+    public List<TimeRange> Ranges {get; set;}
+    public int Start { get; set; }
+
+    public int End { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
     public double? Duration { 
         get {
-            return End.Subtract(Start).TotalMinutes;
+            return End - Start;
         }
      }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NttTimeApi.Db;
 
 namespace ntttime.Migrations
 {
     [DbContext(typeof(NttDbContext))]
-    partial class NttDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190401192607_ChangeTypes")]
+    partial class ChangeTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,11 +27,9 @@ namespace ntttime.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Day");
+                    b.Property<int>("EndNew");
 
-                    b.Property<int>("End");
-
-                    b.Property<int>("Start");
+                    b.Property<int>("StartNew");
 
                     b.Property<DateTime?>("UpdatedAt");
 
