@@ -1,16 +1,19 @@
 <h2>Time Entry Details: </h2>
 
 <div fxLayout="row">
-    <label fxFlex="10">Day:</label>
     <span>{{item?.start | date}}</span>
 </div>
 
 <div fxLayout="row">
     <label fxFlex="10">Start:</label>
-    <input type="time" [value]="start" disabled/>
-    <button mat-icon-button [ngxTimepicker]="fullTime" [format]="24">
-      <mat-icon>access_time</mat-icon>
-    </button>
+    <mat-form-field>
+        <input matInput placeholder="Start" type="time" [value]="start"  readonly/>
+        <button mat-icon-button matSuffix [ngxTimepicker]="fullTime" [format]="24">
+            <mat-icon>access_time</mat-icon>
+          </button>
+    </mat-form-field>
+    
+    
 
     <!-- <input placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24"  readonly> -->
 
