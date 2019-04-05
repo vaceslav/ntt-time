@@ -8,7 +8,7 @@ using System;
 
 namespace ntt_time.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/timeentry/{timeEntryId}/[controller]")]
     [ApiController]
     public class RangeController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace ntt_time.Controllers
             _context = context;
         }
 
-        [HttpPost("timeentry/{timeEntryId}/addrange/{start}")]
+        [HttpPost("{start}")]
         [ProducesResponseType(typeof(TimeRange), 200)]
         public async Task<IActionResult> Add(int timeEntryId, int start)
         {
@@ -42,10 +42,30 @@ namespace ntt_time.Controllers
             return Ok(range);
         }
 
-        [HttpPut("timeentry/{timeEntryId}/range/{rangeId}")]
+        [HttpGet("")]
+        [ProducesResponseType(typeof(TimeRange[]), 200)]
+        public async Task<IActionResult> GetAll(int timeEntryId)
+        {
+            var entry = await _context.TimeEntries
+            .Include(i => i.Ranges)
+            .FirstOrDefaultAsync(i => i.Id == timeEntryId);
+
+            if (entry == null)
+            {
+                return NotFound("Time Entry not found");
+            }
+
+            return Ok(entry.Ranges);
+        }
+
+        [HttpPut("{rangeId}")]
         [ProducesResponseType(typeof(TimeRange), 200)]
         public async Task<IActionResult> Update(int timeEntryId, int rangeId, [FromBody] TimeRange range)
         {
+
+
+            var processDocuments = _context.ProcessDocuments.Where(p => p.Name == "dsfs");
+
             var entry = await _context.TimeEntries.Include(i => i.Ranges).FirstOrDefaultAsync(i => i.Id == timeEntryId);
 
             if (entry == null)
@@ -68,4 +88,12 @@ namespace ntt_time.Controllers
             return Ok(dbRange);
         }
     }
+
+    // private class Test {
+    //     public int[] Ranges {get; set;}
+
+    //     public Test( int[] aRanges){
+    //         Ranges = aRanges;
+    //     }
+    // }
 }

@@ -3,40 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NttTimeApi.Db;
 
 namespace ntttime.Migrations
 {
     [DbContext(typeof(NttDbContext))]
-    partial class NttDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190403150717_AddDocuments")]
+    partial class AddDocuments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DocumentInfo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FileLenght");
-
-                    b.Property<string>("FileName");
-
-                    b.Property<int?>("ProcessDocumentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProcessDocumentId");
-
-                    b.ToTable("DocumentInfo");
-                });
 
             modelBuilder.Entity("ProcessDocument", b =>
                 {
@@ -91,13 +74,6 @@ namespace ntttime.Migrations
                     b.HasIndex("TimeEntryId");
 
                     b.ToTable("TimeRange");
-                });
-
-            modelBuilder.Entity("DocumentInfo", b =>
-                {
-                    b.HasOne("ProcessDocument")
-                        .WithMany("Infos")
-                        .HasForeignKey("ProcessDocumentId");
                 });
 
             modelBuilder.Entity("TimeRange", b =>

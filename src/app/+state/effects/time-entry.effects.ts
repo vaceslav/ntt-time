@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, mergeMap } from 'rxjs/operators';
 
 import { TimeEntryClient, TimeEntry } from '../../shared/swagger';
 import * as timeActions from '../actions/time-entry.actions';
+import * as rangeActions from '../actions/time-range.actions';
 
 @Injectable()
 export class TimeEntryEffects {
@@ -21,7 +22,9 @@ export class TimeEntryEffects {
   loadEntry$: Observable<Action> = this.actions$.pipe(
     ofType<timeActions.LoadTimeEntry>(timeActions.LOAD_TIME_ENTRY),
     switchMap(action => {
-      return this.timeEntryClient.get(action.payload).pipe(map(item => new timeActions.LoadTimeEntrySuccess(item)));
+      return this.timeEntryClient
+        .get(action.payload)
+        .pipe(mergeMap(item => [new timeActions.LoadTimeEntrySuccess(item), new rangeActions.LoadRanges(item.id)]));
     })
   );
 
