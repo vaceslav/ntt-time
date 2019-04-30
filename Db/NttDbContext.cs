@@ -9,9 +9,5 @@ namespace NttTimeApi.Db
         }
 
         public DbSet<TimeEntry> TimeEntries { get; set; }
-
-        public DbSet<ProcessDocument> ProcessDocuments { get; set; }
-
-        
     }
 }

@@ -62,10 +62,6 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeRange), 200)]
         public async Task<IActionResult> Update(int timeEntryId, int rangeId, [FromBody] TimeRange range)
         {
-
-
-            var processDocuments = _context.ProcessDocuments.Where(p => p.Name == "dsfs");
-
             var entry = await _context.TimeEntries.Include(i => i.Ranges).FirstOrDefaultAsync(i => i.Id == timeEntryId);
 
             if (entry == null)
