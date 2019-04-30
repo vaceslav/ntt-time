@@ -27,7 +27,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(List<TimeEntry>), 200)]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _context.TimeEntries.ToListAsync());
+            return Ok(await _context.TimeEntry.ToListAsync());
         }
 
         // GET api/values/search
@@ -35,8 +35,8 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(SearchResult), 200)]
         public async Task<IActionResult> Search([FromBody] SearchRequest filter)
         {
-            var count = await _context.TimeEntries.CountAsync();
-            var result = await _context.TimeEntries
+            var count = await _context.TimeEntry.CountAsync();
+            var result = await _context.TimeEntry
                                             .OrderBy(i => i.Start)
                                             .Skip(filter.PageIndex * filter.PageSize)
                                             .Take(filter.PageSize)
@@ -50,7 +50,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeEntry), 200)]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _context.TimeEntries.Include(i => i.Ranges).FirstAsync(i => i.Id == id));
+            return Ok(await _context.TimeEntry.Include(i => i.Ranges).FirstAsync(i => i.Id == id));
         }
 
         [HttpPost("")]
@@ -58,7 +58,7 @@ namespace ntt_time.Controllers
         public async Task<IActionResult> Create([FromBody] TimeEntry entry)
         {
             entry.UpdatedAt = DateTime.Now;
-            var result = await _context.TimeEntries.AddAsync(entry);
+            var result = await _context.TimeEntry.AddAsync(entry);
             _context.SaveChanges();
             return Ok(entry);
         }
@@ -66,7 +66,7 @@ namespace ntt_time.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var item = await _context.TimeEntries.FirstAsync(i => i.Id == id);
+            var item = await _context.TimeEntry.FirstAsync(i => i.Id == id);
             if(item != null){
                 _context.Remove(item);
                 _context.SaveChanges();
@@ -79,7 +79,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeEntry), 200)]
         public async Task<IActionResult> Update(int id, [FromBody] TimeEntry entry)
         {
-            var item = await _context.TimeEntries.FirstAsync(i => i.Id == id);
+            var item = await _context.TimeEntry.FirstAsync(i => i.Id == id);
             if(item != null){
                 entry.UpdatedAt = DateTime.Now;
                 _context.Entry(item).CurrentValues.SetValues(entry);
