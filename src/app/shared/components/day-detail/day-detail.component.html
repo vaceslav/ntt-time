@@ -1,3 +1,8 @@
-<p>
-  day-detail works!
-</p>
+<div class="start" [style.top.px]="startTopPosition">start working</div>
+<div *ngFor="let i of items" class="quarter" [class.hour]="i % 60 === 0">{{i | time}}</div>
+<div *ngFor="let range of rangesToDisplay"
+     class="range"
+     [style.top.px]="range.top"
+     [style.height.px]="range.height">
+     <div class="range-content">Project XYZ</div>
+</div>
