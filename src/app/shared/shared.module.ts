@@ -10,6 +10,7 @@ import { EntryDetailComponent } from 'src/app/shared/components/entry-detail/ent
 import { EntryComponent } from './components/entry/entry.component';
 import { HourPipe } from './services/hours.pipe';
 import { TimePipe } from './services/time.pipe';
+import { DayDetailComponent } from './components/day-detail/day-detail.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { TimePipe } from './services/time.pipe';
     FlexLayoutModule,
     NgxMaterialTimepickerModule.forRoot()
   ],
-  declarations: [EntryComponent, EntryDetailComponent, HourPipe, TimePipe],
-  exports: [EntryComponent, EntryDetailComponent]
+  declarations: [EntryComponent, EntryDetailComponent, HourPipe, TimePipe, DayDetailComponent],
+  exports: [EntryComponent, EntryDetailComponent, DayDetailComponent]
 })
 export class SharedModule {}
