@@ -8,6 +8,6 @@ namespace NttTimeApi.Db
         {
         }
 
-        public DbSet<TimeEntry> TimeEntry { get; set; }
+        public DbSet<TimeEntry> TimeEntries { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeRange), 200)]
         public async Task<IActionResult> Add(int timeEntryId, int start)
         {
-            var entry = await _context.TimeEntry.FirstOrDefaultAsync(i => i.Id == timeEntryId);
+            var entry = await _context.TimeEntries.FirstOrDefaultAsync(i => i.Id == timeEntryId);
 
             if (entry == null)
             {
@@ -46,7 +46,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeRange[]), 200)]
         public async Task<IActionResult> GetAll(int timeEntryId)
         {
-            var entry = await _context.TimeEntry
+            var entry = await _context.TimeEntries
             .Include(i => i.Ranges)
             .FirstOrDefaultAsync(i => i.Id == timeEntryId);
 
@@ -62,7 +62,7 @@ namespace ntt_time.Controllers
         [ProducesResponseType(typeof(TimeRange), 200)]
         public async Task<IActionResult> Update(int timeEntryId, int rangeId, [FromBody] TimeRange range)
         {
-            var entry = await _context.TimeEntry.Include(i => i.Ranges).FirstOrDefaultAsync(i => i.Id == timeEntryId);
+            var entry = await _context.TimeEntries.Include(i => i.Ranges).FirstOrDefaultAsync(i => i.Id == timeEntryId);
 
             if (entry == null)
             {
