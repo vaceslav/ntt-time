@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './time-view/time-view.module#TimeViewModule'
+    loadChildren: () => import('./time-view/time-view.module').then(m => m.TimeViewModule)
   }
 ];
 
