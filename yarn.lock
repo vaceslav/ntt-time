@@ -181,6 +181,13 @@
   dependencies:
     tslib "^1.9.0"
 
+"@angular/flex-layout@8.0.0-beta.26":
+  version "8.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-8.0.0-beta.26.tgz#05807e4daeb7c70da5653b681f8e8c0da87d133e"
+  integrity sha512-lXDLlMSNQhidW0grvisIsj/3gqLuYyN2MvABuRYybnFTc233sXGZuOAaulqq663LA0/DP/GNcz6a+A4ZAAlmPA==
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/forms@8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-8.1.1.tgz#e71d8967b4b9bf0e67a21bcf953bf1bf4eecd1e5"
@@ -5009,6 +5016,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+luxon@^1.11.3:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.17.1.tgz#7261aae6f7a2cc3cf83cbe24c62335cf3a48caad"
+  integrity sha512-+xo7Pj54xwyEzlMdXzDqm60Ewqbn0QqACwfIo6so9M1idUtYQrD7/PHjEFQQmLCBu8wUe2IDC2jrcJJ3Buk4Pw==
+
 magic-string@0.25.3, magic-string@^0.25.0:
   version "0.25.3"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.3.tgz#34b8d2a2c7fec9d9bdf9929a3fd81d271ef35be9"
@@ -5388,11 +5400,12 @@ neo-async@^2.5.0, neo-async@^2.6.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-ngx-material-timepicker@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-material-timepicker/-/ngx-material-timepicker-3.1.0.tgz#73cc63ac011945843716eda5790ba52107081a43"
-  integrity sha512-CEouAaW5snTc86Y5EKK2y+GbrSyfc3pTKYhxUrxxSi8zYVcvUQKucvTzFxg8gmlRYS8e0zHstIeQbkwXIrx8Rg==
+ngx-material-timepicker@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-material-timepicker/-/ngx-material-timepicker-4.0.1.tgz#8f7898b3f8a316782dcddb8c1694c99344e98d8a"
+  integrity sha512-JMs/ldTEjvUNk8DCkvDBhoI0OrNbv01Me9TWFfnvbusILEnZ/LPrSgkKow4dtbsp6JLt21LEAP+rD4FE3tTXwg==
   dependencies:
+    luxon "^1.11.3"
     tslib "^1.9.0"
 
 nice-try@^1.0.4:

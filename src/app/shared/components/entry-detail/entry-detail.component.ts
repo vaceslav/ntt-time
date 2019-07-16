@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { ITimeEntry } from '../../swagger';
-import {} from 'ngx-material-timepicker';
-import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker/src/app/material-timepicker/ngx-material-timepicker.component';
+import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 import { first, map } from 'rxjs/operators';
 
 @Component({
@@ -17,7 +16,7 @@ export class EntryDetailComponent implements OnInit {
   @Output()
   update = new EventEmitter<ITimeEntry>();
 
-  @ViewChild('fullTime') timePicker: any;
+  @ViewChild('fullTime', { static: false }) timePicker: any;
 
   constructor() {}
 

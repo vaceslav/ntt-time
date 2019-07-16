@@ -23,7 +23,7 @@ import { DayDetailComponent } from './components/day-detail/day-detail.component
     MatIconModule,
     MatInputModule,
     FlexLayoutModule,
-    NgxMaterialTimepickerModule.forRoot()
+    NgxMaterialTimepickerModule
   ],
   declarations: [EntryComponent, EntryDetailComponent, HourPipe, TimePipe, DayDetailComponent],
   exports: [EntryComponent, EntryDetailComponent, DayDetailComponent]
