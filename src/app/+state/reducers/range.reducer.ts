@@ -20,10 +20,10 @@ export function timeRangeReducer(state = initialState, action: actions.TimeRange
   switch (action.type) {
     case actions.LOAD_RANGES_SUCCESS:
       return adapter.addAll(action.ranges, state);
+    case actions.UPDATE_RANGE_SUCCESS:
+      return adapter.updateOne({ id: action.range.id, changes: action.range }, state);
     case actions.ADD_NEW_RANGE_SUCCESS:
-      return {
-        ...state
-      };
+      return adapter.addOne(action.payload, state);
     default:
       return state;
   }

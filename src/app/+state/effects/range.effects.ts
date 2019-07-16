@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RangeClient } from 'src/app/shared/swagger';
+import { RangeClient, TimeRange } from 'src/app/shared/swagger';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
@@ -16,6 +16,26 @@ export class RangeEffects {
       return this.rangeClient
         .getAll(action.timeEntryId)
         .pipe(map(ranges => new rangeActions.LoadRangesSuccess(ranges)));
+    })
+  );
+
+  @Effect()
+  addNewRange$: Observable<Action> = this.actions$.pipe(
+    ofType<rangeActions.AddNewRange>(rangeActions.ADD_NEW_RANGE),
+    switchMap(action => {
+      return this.rangeClient
+        .add(action.timeEntryId, action.startTime)
+        .pipe(map(range => new rangeActions.AddNewRangeSuccess(range)));
+    })
+  );
+
+  @Effect()
+  updateRange$: Observable<Action> = this.actions$.pipe(
+    ofType<rangeActions.UpdateRange>(rangeActions.UPDATE_RANGE),
+    switchMap(action => {
+      return this.rangeClient
+        .update(action.timeentryid, action.range.id, action.range as TimeRange)
+        .pipe(map(range => new rangeActions.UpdateRangeSuccess(range)));
     })
   );
 
