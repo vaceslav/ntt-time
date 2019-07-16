@@ -110,10 +110,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/cdk@7.3.7":
-  version "7.3.7"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-7.3.7.tgz#ce1ad53ba04beb9c8e950acc5691ea0143753764"
-  integrity sha512-xbXxhHHKGkVuW6K7pzPmvpJXIwpl0ykBnvA2g+/7Sgy5Pd35wCC+UtHD9RYczDM/mkygNxMQtagyCErwFnDtQA==
+"@angular/cdk@8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-8.1.0.tgz#6eda3e3ecfe157e7c7790b6d1c7e2d7e9f59dd1e"
+  integrity sha512-CKZTtLWNSSM+DmZS5IHhhh+Tb3+N3/WnINq55yQrupk0hIsfyssMTBp6GHogE9btfo9+73B5fSK+VNj6VuD/Qw==
   dependencies:
     tslib "^1.7.1"
   optionalDependencies:
@@ -181,13 +181,6 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/flex-layout@7.0.0-beta.23":
-  version "7.0.0-beta.23"
-  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-7.0.0-beta.23.tgz#eff267584284bf534932deac513827d1b059c92e"
-  integrity sha512-jH2i3i/M7SbK6scVlj2urVL5OhzwavbQ7KwvUjyc/UwccKnnzuOuWEGCINLja/aoaUO3I35LluCLv6a6VN0olA==
-  dependencies:
-    tslib "^1.7.1"
-
 "@angular/forms@8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-8.1.1.tgz#e71d8967b4b9bf0e67a21bcf953bf1bf4eecd1e5"
@@ -200,10 +193,10 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-8.1.1.tgz#5940b764fa395b75acd50777721c0aa2914e58c9"
   integrity sha512-72ILJBDGhmXUsufxjDT1dzt0oOV7EHWUePgk4xv2s9/gg/xeB0XEDv+AH4LNcYKrbUWyZj7/z7wPzJe+K5PfKQ==
 
-"@angular/material@7.3.7":
-  version "7.3.7"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-7.3.7.tgz#dcd95e6618ba6254c5880efee1aad349cf5b9140"
-  integrity sha512-Eq+7frkeNGkLOfEtmkmJgR+AgoWajOipXZWWfCSamNfpCcPof82DwvGOpAmgGni9FuN2XFQdqP5MoaffQzIvUA==
+"@angular/material@8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-8.1.0.tgz#71cd6e19c330aed7a3d95f77f17118f97d19674d"
+  integrity sha512-uozRo8UBDzLq0ck8oyImce+4RIGFu8mFzjG1GexwMQ92d8QPvIvZJ2ESYEeYRZHt9T/9QdTbwzLVeQ43BF5lVg==
   dependencies:
     tslib "^1.7.1"
 

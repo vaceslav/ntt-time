@@ -3,7 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatIconModule, MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { EntryDetailComponent } from 'src/app/shared/components/entry-detail/entry-detail.component';
 

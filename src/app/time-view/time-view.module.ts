@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatListModule, MatProgressSpinnerModule, MatPaginatorModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { EntriesService } from '../shared/services/entries.service';
 import { SharedModule } from '../shared/shared.module';
