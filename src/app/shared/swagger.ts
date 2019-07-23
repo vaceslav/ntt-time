@@ -17,6 +17,72 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 @Injectable({
     providedIn: 'root'
 })
+export class ProjectClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:5000";
+    }
+
+    getAll(): Observable<Project[] | null> {
+        let url_ = this.baseUrl + "/api/Project";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<Project[] | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Project[] | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<Project[] | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(Project.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Project[] | null>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class RangeClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -837,10 +903,55 @@ export class ValuesClient {
     }
 }
 
+export class Project implements IProject {
+    id: number;
+    name?: string | undefined;
+    budget: number;
+
+    constructor(data?: IProject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.name = data["name"];
+            this.budget = data["budget"];
+        }
+    }
+
+    static fromJS(data: any): Project {
+        data = typeof data === 'object' ? data : {};
+        let result = new Project();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["budget"] = this.budget;
+        return data; 
+    }
+}
+
+export interface IProject {
+    id: number;
+    name?: string | undefined;
+    budget: number;
+}
+
 export class TimeRange implements ITimeRange {
     id: number;
     start: number;
     end?: number | undefined;
+    project?: Project | undefined;
     updatedAt: Date;
 
     constructor(data?: ITimeRange) {
@@ -857,6 +968,7 @@ export class TimeRange implements ITimeRange {
             this.id = data["id"];
             this.start = data["start"];
             this.end = data["end"];
+            this.project = data["project"] ? Project.fromJS(data["project"]) : <any>undefined;
             this.updatedAt = data["updatedAt"] ? new Date(data["updatedAt"].toString()) : <any>undefined;
         }
     }
@@ -873,6 +985,7 @@ export class TimeRange implements ITimeRange {
         data["id"] = this.id;
         data["start"] = this.start;
         data["end"] = this.end;
+        data["project"] = this.project ? this.project.toJSON() : <any>undefined;
         data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
         return data; 
     }
@@ -882,6 +995,7 @@ export interface ITimeRange {
     id: number;
     start: number;
     end?: number | undefined;
+    project?: Project | undefined;
     updatedAt: Date;
 }
 

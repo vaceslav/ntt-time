@@ -3,6 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from './+state';
+import { selectAllProjects } from './+state/selectors/project.selector';
+import { LoadProjects } from './+state/actions/project.actions';
 
 @Component({
   selector: 'time-root',
@@ -17,5 +19,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.numberOfItems$ = this.store.pipe(select(fromStore.numberOfItems));
+
+    this.store.dispatch(new LoadProjects());
   }
 }
