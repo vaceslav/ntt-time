@@ -21,9 +21,9 @@ export function timeRangeReducer(state = initialState, action: actions.TimeRange
     case actions.LOAD_RANGES_SUCCESS:
       return adapter.addAll(action.ranges, state);
     case actions.ADD_NEW_RANGE_SUCCESS:
-      return {
-        ...state
-      };
+      return adapter.addOne(action.payload, state);
+    case actions.UPDATE_RANGE_SUCCESS:
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     default:
       return state;
   }

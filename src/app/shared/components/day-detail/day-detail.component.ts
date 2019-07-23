@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ITimeRange } from '../../swagger';
+import { AppState } from 'src/app/+state';
+import { Store, select } from '@ngrx/store';
+import { LoadRanges, AddNewRange, UpdateRange } from 'src/app/+state/actions/time-range.actions';
+import { Observable, of } from 'rxjs';
+import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'time-day-detail',
@@ -9,53 +15,59 @@ import { ITimeRange } from '../../swagger';
 })
 export class DayDetailComponent implements OnInit {
   items: number[];
-  currentTime = 5 * 60;
+  currentTime = 1 * 60;
   startTopPosition: number;
 
   ranges: ITimeRange[];
-  rangesToDisplay: RangeDisplay[];
+  rangesToDisplay$: Observable<RangeDisplay[]>;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     this.items = [];
     for (let index = 0; index < 24 * 4; index++) {
       this.items.push(index * 15);
     }
 
-    this.ranges = [
-      {
-        id: 0,
-        start: 1 * 60,
-        end: 2.25 * 60,
-        updatedAt: undefined
-      },
-      {
-        id: 0,
-        start: 3 * 60,
-        end: 5 * 60,
-        updatedAt: undefined
-      }
-    ];
+    this.rangesToDisplay$ = this.store.pipe(
+      select(selectAllRanges),
+      map(items => items.map(i => this.convertToDisplay(i)))
+    );
 
-    this.rangesToDisplay = this.ranges.map(r => this.convertToDisplay(r));
+    // this.rangesToDisplay$ = of(this.ranges.map(r => this.convertToDisplay(r)));
   }
 
   ngOnInit() {
     this.startTopPosition = this.convertToPixel(this.currentTime) - 20;
+
+    // this.store.dispatch(new AddNewRange(1, 3 * 60));
+
+    this.store.dispatch(new LoadRanges(1));
   }
 
   private convertToDisplay(range: ITimeRange): RangeDisplay {
     return {
       top: this.convertToPixel(range.start),
-      height: this.convertToPixel(range.end) - this.convertToPixel(range.start)
+      height: this.convertToPixel(range.end) - this.convertToPixel(range.start),
+      range
     };
   }
 
   private convertToPixel(time: number) {
     return (time / 15) * 41;
   }
+
+  stopRange(range: ITimeRange) {
+    range.end = range.start + 2 * 60;
+
+    this.store.dispatch(new UpdateRange(1, range.id, range));
+  }
+
+  addRangeClick(startTime: number) {
+    this.store.dispatch(new AddNewRange(1, startTime));
+  }
 }
 
 interface RangeDisplay {
   top: number;
   height: number;
+  range: ITimeRange;
 }

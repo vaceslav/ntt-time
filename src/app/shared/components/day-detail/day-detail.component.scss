@@ -11,6 +11,18 @@
     height: 40px;
     align-items: center;
     border-top: 1px solid darkgrey;
+
+    .add-range {
+        margin-left: 30px;
+        cursor: pointer;
+        display: none;
+    }
+
+    &:hover {
+        .add-range {
+            display: block;
+        }
+    }
 }
 
 .hour {

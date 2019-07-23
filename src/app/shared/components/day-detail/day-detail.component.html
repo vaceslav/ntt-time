@@ -1,8 +1,12 @@
 <div class="start" [style.top.px]="startTopPosition">start working</div>
-<div *ngFor="let i of items" class="quarter" [class.hour]="i % 60 === 0">{{i | time}}</div>
-<div *ngFor="let range of rangesToDisplay"
+<div *ngFor="let i of items" class="quarter" [class.hour]="i % 60 === 0">
+    <span>{{i | time}}</span>
+    <mat-icon class="add-range" (click)="addRangeClick(i)">add</mat-icon>
+</div>
+<div *ngFor="let range of rangesToDisplay$ | async"
      class="range"
      [style.top.px]="range.top"
      [style.height.px]="range.height">
+     <mat-icon *ngIf="!range.range.end" style="cursor: pointer;" (click)="stopRange(range.range)">stop</mat-icon>
      <div class="range-content">Project XYZ</div>
 </div>
