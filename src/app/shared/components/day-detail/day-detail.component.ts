@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ITimeRange } from '../../swagger';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/+state';
-import { LoadRanges, AddNewRange, UpdateRange } from 'src/app/+state/actions/time-range.actions';
+import { LoadRanges, AddNewRange, UpdateRange, DeleteRange } from 'src/app/+state/actions/time-range.actions';
 import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -88,6 +88,10 @@ export class DayDetailComponent implements OnInit {
 
   addNewRange(timeInMinutes: number) {
     this.store.dispatch(new AddNewRange(1, timeInMinutes));
+  }
+
+  deleteRange(range: ITimeRange) {
+    this.store.dispatch(new DeleteRange(1, range));
   }
 }
 

@@ -83,6 +83,34 @@ namespace ntt_time.Controllers
 
             return Ok(dbRange);
         }
+
+
+
+        [HttpDelete("{rangeId}")]
+        [ProducesResponseType(typeof(bool), 200)]
+        public async Task<IActionResult> Delete(int timeEntryId, int rangeId)
+        {
+            var entry = await _context.TimeEntries.Include(i => i.Ranges).FirstOrDefaultAsync(i => i.Id == timeEntryId);
+
+            if (entry == null)
+            {
+                return NotFound("Time Entry not found");
+            }
+
+
+            var dbRange = entry.Ranges.FirstOrDefault(r => r.Id == rangeId);
+
+            if (dbRange == null)
+            {
+                return NotFound("Time Entry does not have range with this id");
+            }
+
+
+            entry.Ranges.Remove(dbRange);
+            await _context.SaveChangesAsync();
+
+            return Ok(true);
+        }
     }
 
     // private class Test {

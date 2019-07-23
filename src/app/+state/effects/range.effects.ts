@@ -39,5 +39,15 @@ export class RangeEffects {
     })
   );
 
+  @Effect()
+  deleteRange$: Observable<Action> = this.actions$.pipe(
+    ofType<rangeActions.DeleteRange>(rangeActions.DELETE_RANGE),
+    switchMap(action => {
+      return this.rangeClient
+        .delete(action.timeentryid, action.range.id)
+        .pipe(map(() => new rangeActions.DeleteRangeSuccess(action.range)));
+    })
+  );
+
   constructor(private actions$: Actions, private rangeClient: RangeClient) {}
 }

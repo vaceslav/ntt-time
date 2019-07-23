@@ -9,4 +9,5 @@
      [style.height.px]="range.height">
      <div class="range-content">Project XYZ</div>
      <mat-icon *ngIf="!range.range.end" (click)="stopRange(range.range)">stop</mat-icon>
+     <mat-icon *ngIf="range.range.end" (click)="deleteRange(range.range)">delete</mat-icon>
 </div>

@@ -24,6 +24,8 @@ export function timeRangeReducer(state = initialState, action: actions.TimeRange
       return adapter.updateOne({ id: action.range.id, changes: action.range }, state);
     case actions.ADD_NEW_RANGE_SUCCESS:
       return adapter.addOne(action.payload, state);
+    case actions.DELETE_RANGE_SUCCESS:
+      return adapter.removeOne(action.range.id, state);
     default:
       return state;
   }
