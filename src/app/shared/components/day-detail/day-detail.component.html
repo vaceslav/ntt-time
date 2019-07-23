@@ -5,12 +5,8 @@
 </div>
 <div *ngFor="let range of ranges$ | async"
      class="range"
-     cdkDrag cdkDragLockAxis="y"
-     (cdkDragEnded)="onDragMove($event, range.range)"
      [style.top.px]="range.top"
      [style.height.px]="range.height">
      <div class="range-content">Project XYZ</div>
      <mat-icon *ngIf="!range.range.end" (click)="stopRange(range.range)">stop</mat-icon>
-     <mat-icon *ngIf="range.range.end" (click)="deleteRange(range.range)">delete</mat-icon>
-     <div class="anchor" cdkDrag cdkDragLockAxis="y" (cdkDragEnded)="onDragResize($event, range.range)"></div>
 </div>

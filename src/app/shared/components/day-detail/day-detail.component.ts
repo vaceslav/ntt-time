@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AppState } from 'src/app/+state';
+import { AddNewRange, LoadRanges, UpdateRange } from 'src/app/+state/actions/time-range.actions';
+import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
 
 import { ITimeRange } from '../../swagger';
-import { Store, select } from '@ngrx/store';
-import { AppState } from 'src/app/+state';
-import { LoadRanges, AddNewRange, UpdateRange, DeleteRange } from 'src/app/+state/actions/time-range.actions';
-import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
-import { Observable, fromEvent } from 'rxjs';
-import { map, takeUntil, mergeMap } from 'rxjs/operators';
-import { CdkDragMove, CdkDragEnd } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'time-day-detail',
@@ -40,16 +39,6 @@ export class DayDetailComponent implements OnInit {
 
   ngOnInit() {
     this.startTopPosition = this.convertToPixel(this.currentTime) - 20;
-
-    // const move$ = fromEvent(document, 'mousemove');
-    // const down$ = fromEvent(document, 'mousedown');
-    // const up$ = fromEvent(document, 'mouseup');
-
-    // const paints$ = down$.pipe(mergeMap(down => move$.pipe(takeUntil(up$))));
-
-    // paints$.subscribe((d: MouseEvent) => {
-    //   console.log('paint: ' + d.clientY);
-    // });
   }
 
   private convertToDisplay(range: ITimeRange): RangeDisplay {
@@ -79,40 +68,6 @@ export class DayDetailComponent implements OnInit {
 
   addNewRange(timeInMinutes: number) {
     this.store.dispatch(new AddNewRange(1, timeInMinutes));
-  }
-
-  deleteRange(range: ITimeRange) {
-    this.store.dispatch(new DeleteRange(1, range));
-  }
-
-  onDragResize($event: CdkDragEnd, range: ITimeRange) {
-    const minutes = this.convertMinutes($event.distance.y);
-
-    const toMuch = minutes % 15;
-
-    const minutesToAdd = minutes - toMuch;
-
-    const newRange: ITimeRange = {
-      ...range,
-      end: range.end + minutesToAdd
-    };
-
-    this.store.dispatch(new UpdateRange(1, newRange));
-  }
-
-  onDragMove($event: CdkDragEnd, range: ITimeRange) {
-    const minutes = this.convertMinutes($event.distance.y);
-
-    const toMuch = minutes % 15;
-
-    const minutesToAdd = minutes - toMuch;
-
-    const newRange: ITimeRange = {
-      ...range,
-      start: range.start + minutesToAdd
-    };
-
-    this.store.dispatch(new UpdateRange(1, newRange));
   }
 }
 
