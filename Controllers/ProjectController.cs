@@ -27,5 +27,17 @@ namespace ntt_time.Controllers
         {
             return Ok(await _context.Project.ToArrayAsync());
         }
+
+        // GET api/values
+        [HttpPost]
+        [ProducesResponseType(typeof(Project), 200)]
+        public async Task<IActionResult> Create(Project project)
+        {
+
+            var result = await _context.Project.AddAsync(project);
+            await _context.SaveChangesAsync();
+
+            return Ok(result);
+        }
     }
 }

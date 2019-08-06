@@ -4,9 +4,18 @@
     <mat-icon class="add-range" (click)="addNewRange(i)">add</mat-icon>
 </div>
 <div *ngFor="let range of ranges$ | async"
+        cdkDrag cdkDragLockAxis="y"
+        (cdkDragEnded)="moveRange($event, range.range)"
      class="range"
      [style.top.px]="range.top"
      [style.height.px]="range.height">
-     <div class="range-content">Project XYZ</div>
+
+     <mat-select placeholder="Select Project">
+        <mat-option *ngFor="let p of projects$ | async" [value]="p.id">
+            {{p.name}}
+        </mat-option>
+    </mat-select>
      <mat-icon *ngIf="!range.range.end" (click)="stopRange(range.range)">stop</mat-icon>
+     <mat-icon *ngIf="range.range.end" (click)="deleteRange(range.range)">delete</mat-icon>
+     <div class="anchor" cdkDrag cdkDragLockAxis="y" (cdkDragEnded)="updateRange($event, range.range)"></div>
 </div>

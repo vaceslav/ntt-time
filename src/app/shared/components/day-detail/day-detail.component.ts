@@ -3,10 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/+state';
-import { AddNewRange, LoadRanges, UpdateRange } from 'src/app/+state/actions/time-range.actions';
+import { AddNewRange, LoadRanges, UpdateRange, DeleteRange } from 'src/app/+state/actions/time-range.actions';
 import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
 
-import { ITimeRange } from '../../swagger';
+import { ITimeRange, IProject } from '../../swagger';
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { selectAllProjects } from 'src/app/+state/selectors/project.selector';
 
 @Component({
   selector: 'time-day-detail',
@@ -20,6 +22,7 @@ export class DayDetailComponent implements OnInit {
 
   rangesToDisplay: RangeDisplay[];
   ranges$: Observable<RangeDisplay[]>;
+  projects$: Observable<IProject[]>;
 
   constructor(private store: Store<AppState>) {
     this.items = [];
@@ -39,6 +42,8 @@ export class DayDetailComponent implements OnInit {
 
   ngOnInit() {
     this.startTopPosition = this.convertToPixel(this.currentTime) - 20;
+
+    this.projects$ = this.store.pipe(select(selectAllProjects));
   }
 
   private convertToDisplay(range: ITimeRange): RangeDisplay {
@@ -68,6 +73,37 @@ export class DayDetailComponent implements OnInit {
 
   addNewRange(timeInMinutes: number) {
     this.store.dispatch(new AddNewRange(1, timeInMinutes));
+  }
+
+  deleteRange(range: ITimeRange) {
+    this.store.dispatch(new DeleteRange(1, range));
+  }
+
+  updateRange($event: CdkDragEnd, range: ITimeRange) {
+    const minutes = this.convertMinutes($event.distance.y);
+    const toMutch = minutes % 15;
+    const minutesToAdd = minutes - toMutch;
+
+    const newRange: ITimeRange = {
+      ...range,
+      end: range.end + minutesToAdd
+    };
+
+    this.store.dispatch(new UpdateRange(1, newRange));
+  }
+
+  moveRange($event: CdkDragEnd, range: ITimeRange) {
+    const minutes = this.convertMinutes($event.distance.y);
+    const toMutch = minutes % 15;
+    const minutesToAdd = minutes - toMutch;
+
+    const newRange: ITimeRange = {
+      ...range,
+      start: range.start + minutesToAdd,
+      end: range.end + minutesToAdd
+    };
+
+    this.store.dispatch(new UpdateRange(1, newRange));
   }
 }
 

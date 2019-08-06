@@ -30,7 +30,7 @@ namespace ntt_time.Controllers
                 return NotFound("Time Entry not found");
             }
 
-            var range = new TimeRange { Start = start, UpdatedAt = DateTime.Now };
+            var range = new TimeRange { Start = start, End = start + 60, UpdatedAt = DateTime.Now };
             if (entry.Ranges == null)
             {
                 entry.Ranges = new List<TimeRange>();
