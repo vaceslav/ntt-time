@@ -109,7 +109,8 @@ export class DayDetailComponent implements OnInit {
 
     const newRange: ITimeRange = {
       ...range,
-      start: range.start + minutesToAdd
+      start: range.start + minutesToAdd,
+      end: range.end + minutesToAdd
     };
 
     this.store.dispatch(new UpdateRange(1, newRange));
