@@ -13,6 +13,8 @@ export function projectReducer(state = initialState, action: projectActions.Proj
   switch (action.type) {
     case projectActions.LOAD_PROJECTS_SUCCESS:
       return adapter.addAll(action.projects, state);
+    case projectActions.ADD_PROJECT_SUCCESS:
+      return adapter.addOne(action.project, state);
     default:
       return state;
   }

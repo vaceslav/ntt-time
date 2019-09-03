@@ -1,0 +1,12 @@
+
+<form>
+    <mat-form-field>
+        <mat-label>Projectname</mat-label>
+        <input matInput type="text" value="Sushi">
+    </mat-form-field>
+
+
+</form>
+
+
+<div *ngFor="let p of projects$ | async">{{p.name}}</div>
