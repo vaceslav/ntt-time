@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { RangeClient, TimeRange } from 'src/app/shared/swagger';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import * as rangeActions from '../actions/time-range.actions';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { AppState } from '../reducers';
 
 @Injectable()
 export class RangeEffects {
@@ -22,9 +23,11 @@ export class RangeEffects {
   @Effect()
   addNewRange$: Observable<Action> = this.actions$.pipe(
     ofType<rangeActions.AddNewRange>(rangeActions.ADD_NEW_RANGE),
-    switchMap(action => {
+    withLatestFrom(this.store),
+    switchMap(([action, state]) => {
+      const timeEntryId = state.timeEntries.selectedId;
       return this.rangeClient
-        .add(action.timeEntryId, action.startTime)
+        .add(timeEntryId, action.startTime)
         .pipe(map(range => new rangeActions.AddNewRangeSuccess(range)));
     })
   );
@@ -32,9 +35,11 @@ export class RangeEffects {
   @Effect()
   updateRange$: Observable<Action> = this.actions$.pipe(
     ofType<rangeActions.UpdateRange>(rangeActions.UPDATE_RANGE),
-    switchMap(action => {
+    withLatestFrom(this.store),
+    switchMap(([action, state]) => {
+      const timeEntryId = state.timeEntries.selectedId;
       return this.rangeClient
-        .update(action.timeentryid, action.range.id, action.range as TimeRange)
+        .update(timeEntryId, action.range.id, action.range as TimeRange)
         .pipe(map(range => new rangeActions.UpdateRangeSuccess(range)));
     })
   );
@@ -42,12 +47,14 @@ export class RangeEffects {
   @Effect()
   deleteRange$: Observable<Action> = this.actions$.pipe(
     ofType<rangeActions.DeleteRange>(rangeActions.DELETE_RANGE),
-    switchMap(action => {
+    withLatestFrom(this.store),
+    switchMap(([action, state]) => {
+      const timeEntryId = state.timeEntries.selectedId;
       return this.rangeClient
-        .delete(action.timeentryid, action.range.id)
+        .delete(timeEntryId, action.range.id)
         .pipe(map(() => new rangeActions.DeleteRangeSuccess(action.range)));
     })
   );
 
-  constructor(private actions$: Actions, private rangeClient: RangeClient) {}
+  constructor(private actions$: Actions, private rangeClient: RangeClient, private store: Store<AppState>) {}
 }

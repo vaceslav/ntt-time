@@ -24,7 +24,7 @@ export class LoadRangesSuccess {
 
 export class AddNewRange {
   readonly type = ADD_NEW_RANGE;
-  constructor(public timeEntryId: number, public startTime) {}
+  constructor(public startTime) {}
 }
 
 export class AddNewRangeSuccess {
@@ -34,7 +34,7 @@ export class AddNewRangeSuccess {
 
 export class UpdateRange {
   readonly type = UPDATE_RANGE;
-  constructor(public timeentryid: number, public range: ITimeRange) {}
+  constructor(public range: ITimeRange) {}
 }
 
 export class UpdateRangeSuccess {
@@ -44,7 +44,7 @@ export class UpdateRangeSuccess {
 
 export class DeleteRange {
   readonly type = DELETE_RANGE;
-  constructor(public timeentryid: number, public range: ITimeRange) {}
+  constructor(public range: ITimeRange) {}
 }
 
 export class DeleteRangeSuccess {

@@ -18,6 +18,8 @@ export const initialState: RangeState = adapter.getInitialState({
 
 export function timeRangeReducer(state = initialState, action: actions.TimeRangeAction): RangeState {
   switch (action.type) {
+    case actions.LOAD_RANGES:
+      return adapter.removeAll(state);
     case actions.LOAD_RANGES_SUCCESS:
       return adapter.addAll(action.ranges, state);
     case actions.UPDATE_RANGE_SUCCESS:

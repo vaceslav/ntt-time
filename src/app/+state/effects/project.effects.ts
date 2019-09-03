@@ -12,6 +12,7 @@ export class ProjectEffects {
   @Effect()
   loadAll$: Observable<Action> = this.actions$.pipe(
     ofType<projectActions.LoadProjects>(projectActions.LOAD_PROJECTS),
+
     switchMap(action => {
       return this.projectClient.getAll().pipe(map(items => new projectActions.LoadProjectsSuccess(items)));
     })
