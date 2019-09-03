@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AppState, LoadTimeEntry } from '../../+state';
+import { LoadRanges } from 'src/app/+state/actions/time-range.actions';
 
 @Injectable({
   providedIn: 'root'

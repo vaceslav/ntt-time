@@ -1,4 +1,3 @@
-<div class="start" [style.top.px]="startTopPosition">start working</div>
 <div *ngFor="let i of items" class="quarter" [class.hour]="i % 60 === 0">
     <span> {{i | time}} </span>
     <mat-icon class="add-range" (click)="addNewRange(i)">add</mat-icon>

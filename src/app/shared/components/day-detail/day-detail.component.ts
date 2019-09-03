@@ -1,13 +1,13 @@
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AppState } from 'src/app/+state';
+import { AddNewRange, DeleteRange, UpdateRange } from 'src/app/+state/actions/time-range.actions';
+import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
 
 import { ITimeRange } from '../../swagger';
-import { Store, select } from '@ngrx/store';
-import { AppState } from 'src/app/+state';
-import { LoadRanges, AddNewRange, UpdateRange, DeleteRange } from 'src/app/+state/actions/time-range.actions';
-import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
-import { Observable, fromEvent } from 'rxjs';
-import { map, takeUntil, mergeMap } from 'rxjs/operators';
-import { CdkDragMove, CdkDragEnd } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'time-day-detail',
@@ -27,10 +27,6 @@ export class DayDetailComponent implements OnInit {
     for (let index = 0; index < 24 * 4; index++) {
       this.items.push(index * 15);
     }
-
-    this.store.dispatch(new LoadRanges(1));
-
-    // this.store.dispatch(new AddNewRange(1, 3 * 60));
 
     this.ranges$ = this.store.pipe(
       select(selectAllRanges),
@@ -70,7 +66,7 @@ export class DayDetailComponent implements OnInit {
 
   stopRange(range: ITimeRange) {
     this.store.dispatch(
-      new UpdateRange(1, {
+      new UpdateRange({
         ...range,
         end: range.start + 2 * 60
       })
@@ -78,11 +74,11 @@ export class DayDetailComponent implements OnInit {
   }
 
   addNewRange(timeInMinutes: number) {
-    this.store.dispatch(new AddNewRange(1, timeInMinutes));
+    this.store.dispatch(new AddNewRange(timeInMinutes));
   }
 
   deleteRange(range: ITimeRange) {
-    this.store.dispatch(new DeleteRange(1, range));
+    this.store.dispatch(new DeleteRange(range));
   }
 
   onDragResize($event: CdkDragEnd, range: ITimeRange) {
@@ -97,7 +93,7 @@ export class DayDetailComponent implements OnInit {
       end: range.end + minutesToAdd
     };
 
-    this.store.dispatch(new UpdateRange(1, newRange));
+    this.store.dispatch(new UpdateRange(newRange));
   }
 
   onDragMove($event: CdkDragEnd, range: ITimeRange) {
@@ -113,7 +109,7 @@ export class DayDetailComponent implements OnInit {
       end: range.end + minutesToAdd
     };
 
-    this.store.dispatch(new UpdateRange(1, newRange));
+    this.store.dispatch(new UpdateRange(newRange));
   }
 }
 
