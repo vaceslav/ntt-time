@@ -18,7 +18,7 @@ export class LoadProjectsSuccess {
 
 export class AddProject {
   readonly type = ADD_PROJECT;
-  constructor(public name: string) {}
+  constructor(public name: string, public budget: number) {}
 }
 
 export class AddProjectSuccess {

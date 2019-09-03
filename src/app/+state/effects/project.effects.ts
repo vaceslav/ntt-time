@@ -23,7 +23,7 @@ export class ProjectEffects {
     ofType<projectActions.AddProject>(projectActions.ADD_PROJECT),
     switchMap(action => {
       return this.projectClient
-        .create({ name: action.name } as Project)
+        .create({ name: action.name, budget: action.budget } as Project)
         .pipe(map(project => new projectActions.AddProjectSuccess(project)));
     })
   );

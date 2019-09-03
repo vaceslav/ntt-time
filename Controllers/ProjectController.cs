@@ -31,12 +31,12 @@ namespace ntt_time.Controllers
         // POST  
         [HttpPost]
         [ProducesResponseType(typeof(Project), 200)]
-        public async Task<IActionResult> Create(Project project)
+        public async Task<IActionResult> Create([FromBody] Project project)
         {
-            var res =  _context.Project.Add(project);
-            await _context.SaveChangesAsync();
+            var res =  await _context.Project.AddAsync(project);
+            _context.SaveChanges();
 
-            return Ok(res);
+            return Ok(project);
         }
     }
 }

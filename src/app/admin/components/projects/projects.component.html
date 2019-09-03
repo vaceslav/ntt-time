@@ -1,12 +1,28 @@
 
-<form>
-    <mat-form-field>
-        <mat-label>Projectname</mat-label>
-        <input matInput type="text" value="Sushi">
-    </mat-form-field>
+<div>
+    <form>
+        <mat-form-field>
+            <mat-label>Projectname</mat-label>
+            <input matInput type="text" [(ngModel)]="name" name="projectname">
+        </mat-form-field>
 
+        <mat-form-field>
+            <mat-label>Budget</mat-label>
+            <input matInput type="number" [(ngModel)]="budget" name="projectbudget">
+        </mat-form-field>
+    </form>
 
-</form>
+    <button mat-raised-button color="primary" (click)="addProject()">ADD</button>
+</div>
 
+<p></p>
 
-<div *ngFor="let p of projects$ | async">{{p.name}}</div>
+<div>
+    <span style="width: 150px;display: inline-block;">Projectname</span>
+    <span>Budget</span>
+</div>
+
+<div *ngFor="let p of projects$ | async">
+    <span style="width: 150px;display: inline-block;">{{p.name}}</span>
+    <span>{{p.budget}}</span>
+</div>
