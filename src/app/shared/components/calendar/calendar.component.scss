@@ -1,0 +1,20 @@
+.container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    grid-gap: 5px;
+}
+
+.monday {
+    grid-column-start: 2;
+}
+
+.calendar-item {
+    height: 100px;
+    background-color: rgba(148, 151, 150, 0.644);
+    border: 2px solid rgb(100, 100, 100);
+    padding: 5px;
+
+    &.first {
+        font-weight: 600;
+    }
+}

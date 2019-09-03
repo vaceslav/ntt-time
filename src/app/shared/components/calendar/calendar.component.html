@@ -1,0 +1,21 @@
+<button mat-icon-button (click)="beforeClick()">
+    <mat-icon>navigate_before</mat-icon>
+</button>
+
+<button mat-icon-button (click)="nextClick()">
+    <mat-icon>navigate_next</mat-icon>
+</button>
+
+
+
+
+<div class="container">
+    <div *ngFor="let i of items; first as isFirst"
+            class="calendar-item"
+            [class.first]="isFirst"
+            [style.grid-column-start]="isFirst ? offset : 'auto'">
+
+            <span>{{i}}</span>
+            <span *ngIf="isFirst">. {{mounthName}}</span>
+    </div>
+</div>
