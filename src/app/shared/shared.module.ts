@@ -14,6 +14,7 @@ import { DayDetailComponent } from './components/day-detail/day-detail.component
 import { EntryComponent } from './components/entry/entry.component';
 import { HourPipe } from './services/hours.pipe';
 import { TimePipe } from './services/time.pipe';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { TimePipe } from './services/time.pipe';
     NgxMaterialTimepickerModule,
     DragDropModule
   ],
-  declarations: [EntryComponent, EntryDetailComponent, HourPipe, TimePipe, DayDetailComponent],
-  exports: [EntryComponent, EntryDetailComponent, DayDetailComponent]
+  declarations: [EntryComponent, EntryDetailComponent, HourPipe, TimePipe, DayDetailComponent, CalendarComponent],
+  exports: [EntryComponent, EntryDetailComponent, DayDetailComponent, CalendarComponent]
 })
 export class SharedModule {}
