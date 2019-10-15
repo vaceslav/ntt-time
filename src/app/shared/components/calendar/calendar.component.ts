@@ -8,39 +8,71 @@ import { Component, OnInit } from '@angular/core';
 export class CalendarComponent implements OnInit {
   items: number[];
   offset: number;
-  mounthName: string;
-  currentMounth: number;
+  monthName: string;
+  currentMonth: number;
   currentYear: number;
+
+  monthNames: Month[];
+
+  dayNames: string[];
 
   constructor() {}
 
   ngOnInit() {
-    this.currentMounth = new Date().getMonth();
+    this.currentMonth = new Date().getMonth();
     this.currentYear = new Date().getFullYear();
 
     this.calculate();
+
+    this.monthNames = this.generateMonthNames();
+    this.dayNames = this.generateDayNames();
   }
 
   private calculate() {
-    const numberOfDays = new Date(this.currentYear, this.currentMounth + 1, 0).getDate();
+    const numberOfDays = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
 
-    this.mounthName = new Date(this.currentYear, this.currentMounth + 1, 0).toLocaleDateString('de-de', {
+    this.monthName = new Date(this.currentYear, this.currentMonth, 1).toLocaleDateString('de-de', {
       month: 'long'
     });
 
-    const day = new Date(this.currentYear, this.currentMounth).getDay(); // 0 is sunnday
-    this.offset = (day + 7) % 8;
+    const day = new Date(this.currentYear, this.currentMonth, 1).getDay(); // 0 is sunnday
+    this.offset = ((day + 7) % 8) + 1;
 
     this.items = [...Array(numberOfDays).keys()].map(i => ++i);
   }
 
+  private generateMonthNames(): Month[] {
+    return [...Array(12).keys()].map(i => {
+      return {
+        index: i,
+        name: new Date(2019, i, 1).toLocaleDateString('de-de', { month: 'short' })
+      } as Month;
+    });
+  }
+
+  private generateDayNames(): string[] {
+    return [...Array(7).keys()]
+      .map(i => i + 1)
+      .map(i => new Date(2019, 9, i + 6).toLocaleDateString('de-de', { weekday: 'long' }));
+  }
+
   beforeClick() {
-    this.currentMounth = (this.currentMounth - 1) % 12;
+    this.currentMonth = (this.currentMonth - 1) % 12;
     this.calculate();
   }
 
   nextClick() {
-    this.currentMounth = (this.currentMounth + 1) % 12;
+    this.currentMonth = (this.currentMonth + 1) % 12;
     this.calculate();
   }
+
+  selectMonth(m: Month) {
+    this.currentMonth = m.index;
+    this.calculate();
+  }
+}
+
+export interface Month {
+  index: number;
+  name: string;
 }

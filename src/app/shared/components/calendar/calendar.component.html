@@ -6,16 +6,25 @@
     <mat-icon>navigate_next</mat-icon>
 </button>
 
+<div>
+    <span *ngFor="let m of monthNames" class="month-short" (click)="selectMonth(m)">{{m.name}}</span>
+</div>
+
 
 
 
 <div class="container">
+
+        <div *ngFor="let i of dayNames">
+            {{i}}
+        </div>
+
     <div *ngFor="let i of items; first as isFirst"
             class="calendar-item"
             [class.first]="isFirst"
             [style.grid-column-start]="isFirst ? offset : 'auto'">
 
             <span>{{i}}</span>
-            <span *ngIf="isFirst">. {{mounthName}}</span>
+            <span *ngIf="isFirst">. {{monthName}}</span>
     </div>
 </div>
