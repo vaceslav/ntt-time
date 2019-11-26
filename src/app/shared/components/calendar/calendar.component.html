@@ -15,12 +15,13 @@
 
 <div class="container">
 
-        <div *ngFor="let i of dayNames">
-            {{i}}
-        </div>
+    <div *ngFor="let i of dayNames">
+        {{i}}
+    </div>
 
     <div *ngFor="let i of items; first as isFirst"
             class="calendar-item"
+            [routerLink]="currentYear + '-' + currentMonth + '-' + i"
             [class.first]="isFirst"
             [style.grid-column-start]="isFirst ? offset : 'auto'">
 

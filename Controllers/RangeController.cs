@@ -56,7 +56,7 @@ namespace ntt_time.Controllers
             }
 
             return Ok(entry.Ranges);
-        }
+        }        
 
         [HttpPut("{rangeId}")]
         [ProducesResponseType(typeof(TimeRange), 200)]

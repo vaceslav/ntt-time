@@ -4,6 +4,7 @@ import { EntryListComponent } from './components/entry-list/entry-list.component
 import { EntryDetailsContainerComponent } from './components/entry-details-container/entry-details-container.component';
 import { EntryExistGuard } from './guards/entry-exist.guard';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
+import { CalendarStartComponent } from '../shared/components/calendar-start/calendar-start.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,17 @@ const routes: Routes = [
   },
   {
     path: 'calendar',
-    component: CalendarComponent
+    component: CalendarStartComponent,
+    children: [
+      {
+        path: '',
+        component: CalendarComponent
+      },
+      {
+        path: ':day',
+        component: EntryDetailsContainerComponent
+      }
+    ]
   },
   {
     path: ':id',

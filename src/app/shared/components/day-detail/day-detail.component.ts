@@ -1,5 +1,5 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import { AppState } from 'src/app/+state';
 import { AddNewRange, DeleteRange, UpdateRange } from 'src/app/+state/actions/time-range.actions';
 import { selectAllRanges } from 'src/app/+state/selectors/time-range.selector';
 
-import { ITimeRange } from '../../swagger';
+import { ITimeRange, TimeEntryClient } from '../../swagger';
 
 @Component({
   selector: 'time-day-detail',
@@ -15,6 +15,8 @@ import { ITimeRange } from '../../swagger';
   styleUrls: ['./day-detail.component.scss']
 })
 export class DayDetailComponent implements OnInit {
+  @Input() day: string;
+
   items: number[];
   currentTime = 1 * 60;
   startTopPosition: number;
@@ -22,7 +24,7 @@ export class DayDetailComponent implements OnInit {
   rangesToDisplay: RangeDisplay[];
   ranges$: Observable<RangeDisplay[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private timeEntryClient: TimeEntryClient) {
     this.items = [];
     for (let index = 0; index < 24 * 4; index++) {
       this.items.push(index * 15);
@@ -74,7 +76,8 @@ export class DayDetailComponent implements OnInit {
   }
 
   addNewRange(timeInMinutes: number) {
-    this.store.dispatch(new AddNewRange(timeInMinutes));
+    // this.store.dispatch(new AddNewRange(timeInMinutes));
+    this.timeEntryClient.addRange(new Date(this.day), timeInMinutes).subscribe();
   }
 
   deleteRange(range: ITimeRange) {

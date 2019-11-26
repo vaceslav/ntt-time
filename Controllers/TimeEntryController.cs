@@ -90,5 +90,54 @@ namespace ntt_time.Controllers
             }
         }
 
+
+        [HttpGet("getForDay")]
+        [ProducesResponseType(typeof(TimeRange[]), 200)]
+        public async Task<IActionResult> GetForSpecificDay(DateTime day)
+        {
+            
+            var entry = await _context.TimeEntries
+            .Include(i => i.Ranges)
+            .FirstOrDefaultAsync(i => i.Day.Year == day.Year && i.Day.Month == day.Month && i.Day.Day == day.Day);
+
+            if(entry != null){
+                return Ok(entry.Ranges);
+            }            
+
+            return Ok();
+        }
+
+
+        [HttpPost("{start}")]
+        [ProducesResponseType(typeof(TimeRange), 200)]
+        public async Task<IActionResult> AddRange(DateTime day, int start)
+        {
+            var entry = await _context.TimeEntries
+            .Include(i => i.Ranges)
+            .FirstOrDefaultAsync(i => i.Day.Year == day.Year && i.Day.Month == day.Month && i.Day.Day == day.Day);
+
+            if (entry == null)
+            {
+                entry = new TimeEntry {
+                    Day = day,
+                    UpdatedAt = DateTime.Now
+                };
+                
+                _context.TimeEntries.Add(entry);
+                await _context.SaveChangesAsync();
+            }
+
+            var range = new TimeRange { Start = start, UpdatedAt = DateTime.Now };
+            if (entry.Ranges == null)
+            {
+                entry.Ranges = new List<TimeRange>();
+            }
+            entry.Ranges.Add(range);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(range);
+        }
+
     }
 }

@@ -13,19 +13,22 @@ import { EntryComponent } from './components/entry/entry.component';
 import { HourPipe } from './services/hours.pipe';
 import { TimePipe } from './services/time.pipe';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { CalendarStartComponent } from './components/calendar-start/calendar-start.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
+    RouterModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
     FlexLayoutModule,
     DragDropModule
   ],
-  declarations: [EntryComponent, HourPipe, TimePipe, DayDetailComponent, CalendarComponent],
-  exports: [EntryComponent, DayDetailComponent, CalendarComponent]
+  declarations: [EntryComponent, HourPipe, TimePipe, DayDetailComponent, CalendarComponent, CalendarStartComponent],
+  exports: [EntryComponent, DayDetailComponent, CalendarComponent, CalendarStartComponent]
 })
 export class SharedModule {}

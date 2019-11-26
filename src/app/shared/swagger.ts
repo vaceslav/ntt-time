@@ -690,6 +690,117 @@ export class TimeEntryClient {
         }
         return _observableOf<TimeEntry | null>(<any>null);
     }
+
+    getForSpecificDay(day: Date | undefined): Observable<TimeRange[] | null> {
+        let url_ = this.baseUrl + "/api/TimeEntry/getForDay?";
+        if (day === null)
+            throw new Error("The parameter 'day' cannot be null.");
+        else if (day !== undefined)
+            url_ += "day=" + encodeURIComponent(day ? "" + day.toJSON() : "") + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetForSpecificDay(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetForSpecificDay(<any>response_);
+                } catch (e) {
+                    return <Observable<TimeRange[] | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TimeRange[] | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetForSpecificDay(response: HttpResponseBase): Observable<TimeRange[] | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(TimeRange.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TimeRange[] | null>(<any>null);
+    }
+
+    addRange(day: Date | undefined, start: number): Observable<TimeRange | null> {
+        let url_ = this.baseUrl + "/api/TimeEntry/{start}?";
+        if (start === undefined || start === null)
+            throw new Error("The parameter 'start' must be defined.");
+        url_ = url_.replace("{start}", encodeURIComponent("" + start)); 
+        if (day === null)
+            throw new Error("The parameter 'day' cannot be null.");
+        else if (day !== undefined)
+            url_ += "day=" + encodeURIComponent(day ? "" + day.toJSON() : "") + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddRange(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddRange(<any>response_);
+                } catch (e) {
+                    return <Observable<TimeRange | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TimeRange | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAddRange(response: HttpResponseBase): Observable<TimeRange | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TimeRange.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TimeRange | null>(<any>null);
+    }
 }
 
 @Injectable({
