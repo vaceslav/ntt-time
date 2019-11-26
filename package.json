@@ -32,7 +32,6 @@
     "hammerjs": "2.0.8",
     "moment-timezone": "0.5.26",
     "momentjs": "2.0.0",
-    "ngx-material-timepicker": "^4.0.2",
     "rxjs": "6.5.3",
     "tslib": "1.10.0",
     "zone.js": "~0.10.2"

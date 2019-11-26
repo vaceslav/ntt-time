@@ -7,8 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { EntryDetailComponent } from 'src/app/shared/components/entry-detail/entry-detail.component';
 
 import { DayDetailComponent } from './components/day-detail/day-detail.component';
 import { EntryComponent } from './components/entry/entry.component';
@@ -25,10 +23,9 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     MatIconModule,
     MatInputModule,
     FlexLayoutModule,
-    NgxMaterialTimepickerModule,
     DragDropModule
   ],
-  declarations: [EntryComponent, EntryDetailComponent, HourPipe, TimePipe, DayDetailComponent, CalendarComponent],
-  exports: [EntryComponent, EntryDetailComponent, DayDetailComponent, CalendarComponent]
+  declarations: [EntryComponent, HourPipe, TimePipe, DayDetailComponent, CalendarComponent],
+  exports: [EntryComponent, DayDetailComponent, CalendarComponent]
 })
 export class SharedModule {}
