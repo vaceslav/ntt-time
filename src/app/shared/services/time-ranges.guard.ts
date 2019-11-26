@@ -11,8 +11,9 @@ export class TimeRangesGuard implements CanActivate {
   constructor(private store: Store<AppState>) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const timeEntryId = +route.paramMap.get('id');
-    this.store.dispatch(new LoadRanges(timeEntryId));
+    const dayStr = route.paramMap.get('day');
+    const day = new Date(dayStr);
+    this.store.dispatch(new LoadRanges(day));
 
     return true;
   }

@@ -24,7 +24,7 @@ export class TimeEntryEffects {
     switchMap(action => {
       return this.timeEntryClient
         .get(action.payload)
-        .pipe(mergeMap(item => [new timeActions.LoadTimeEntrySuccess(item), new rangeActions.LoadRanges(item.id)]));
+        .pipe(mergeMap(item => [new timeActions.LoadTimeEntrySuccess(item), new rangeActions.LoadRanges(item.day)]));
     })
   );
 

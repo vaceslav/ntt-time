@@ -90,6 +90,26 @@ namespace ntt_time.Controllers
             }
         }
 
+         [HttpPut("updateRange")]
+        [ProducesResponseType(typeof(TimeRange), 200)]
+        public async Task<IActionResult> UpdateRange(int rangeId, [FromBody] TimeRange range)
+        {
+           
+
+            var dbRange = await  _context.TimeRange.FirstOrDefaultAsync(r => r.Id == rangeId);
+
+            if (dbRange == null)
+            {
+                return NotFound("Time Entry does not have range with this id");
+            }
+
+            _context.Entry(dbRange).CurrentValues.SetValues(range);
+            dbRange.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return Ok(dbRange);
+        }
+
 
         [HttpGet("getForDay")]
         [ProducesResponseType(typeof(TimeRange[]), 200)]
@@ -127,7 +147,10 @@ namespace ntt_time.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            var range = new TimeRange { Start = start, UpdatedAt = DateTime.Now };
+            var range = new TimeRange { 
+                Start = start,
+                End = start + 15, 
+                UpdatedAt = DateTime.Now };
             if (entry.Ranges == null)
             {
                 entry.Ranges = new List<TimeRange>();

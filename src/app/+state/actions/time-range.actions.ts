@@ -14,7 +14,7 @@ export const DELETE_RANGE_SUCCESS = '[TIME_RANGE] DELETE_RANGE_SUCCESS';
 
 export class LoadRanges {
   readonly type = LOAD_RANGES;
-  constructor(public timeEntryId: number) {}
+  constructor(public day: Date) {}
 }
 
 export class LoadRangesSuccess {
@@ -24,7 +24,7 @@ export class LoadRangesSuccess {
 
 export class AddNewRange {
   readonly type = ADD_NEW_RANGE;
-  constructor(public startTime) {}
+  constructor(public day: Date, public startTime) {}
 }
 
 export class AddNewRangeSuccess {

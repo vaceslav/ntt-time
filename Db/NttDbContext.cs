@@ -10,6 +10,8 @@ namespace NttTimeApi.Db
 
         public DbSet<TimeEntry> TimeEntries { get; set; }
 
+        public DbSet<TimeRange> TimeRange  { get; set; }
+
         public DbSet<Project> Project { get; set; }
     }
 }

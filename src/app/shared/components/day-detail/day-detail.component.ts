@@ -76,8 +76,8 @@ export class DayDetailComponent implements OnInit {
   }
 
   addNewRange(timeInMinutes: number) {
-    // this.store.dispatch(new AddNewRange(timeInMinutes));
-    this.timeEntryClient.addRange(new Date(this.day), timeInMinutes).subscribe();
+    this.store.dispatch(new AddNewRange(new Date(this.day), timeInMinutes));
+    //this.timeEntryClient.addRange(new Date(this.day), timeInMinutes).subscribe();
   }
 
   deleteRange(range: ITimeRange) {

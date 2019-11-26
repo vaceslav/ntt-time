@@ -5,6 +5,7 @@ import { EntryDetailsContainerComponent } from './components/entry-details-conta
 import { EntryExistGuard } from './guards/entry-exist.guard';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
 import { CalendarStartComponent } from '../shared/components/calendar-start/calendar-start.component';
+import { TimeRangesGuard } from '../shared/services/time-ranges.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
       },
       {
         path: ':day',
-        component: EntryDetailsContainerComponent
+        component: EntryDetailsContainerComponent,
+        canActivate: [TimeRangesGuard]
       }
     ]
   },
