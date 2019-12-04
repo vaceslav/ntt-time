@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +14,7 @@ using NttTimeApi.Db;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.Processors.Security;
+using Microsoft.Extensions.Hosting;
 
 
 namespace ntt_time
@@ -30,16 +31,19 @@ namespace ntt_time
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddControllers(options => options.EnableEndpointRouting = false);
+            services.AddControllersWithViews(options => options.EnableEndpointRouting = false);
+            //services.AddRazorPages().AddMvcOptions(options => options.EnableEndpointRouting = false);
             services.AddSwaggerDocument();
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ntt_time;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<NttDbContext>(options => options.UseSqlServer(connection));
-        }
+            
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
